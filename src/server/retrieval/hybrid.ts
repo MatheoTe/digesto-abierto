@@ -83,7 +83,9 @@ async function lexicalSearch(db: Db, query: string, limit: number, scope?: SQL) 
   const tsQuery = buildTsQuery(query);
   if (!tsQuery) return [];
   const q = sql`to_tsquery('es_unaccent', ${tsQuery})`;
-  const score = sql<number>`ts_rank_cd(${chunks.tsv}, ${q}, 32)`;
+  // Most of the digest is "particular" (a permit for one shop, a street name). A vecino's
+  // question is almost always about a general rule, so general ordinances weigh double.
+  const score = sql<number>`ts_rank_cd(${chunks.tsv}, ${q}, 32) * (case when ${ordinances.scope} = 'G' then 2 else 1 end)`;
   // ts_rank_cd ties are common for short queries; ts_rank (term frequency) breaks most of them.
   const tieBreak = sql<number>`ts_rank(${chunks.tsv}, ${q})`;
   return db
