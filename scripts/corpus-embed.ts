@@ -95,7 +95,13 @@ async function main() {
     } catch (err) {
       // Rate limited (Voyage without a payment method allows 3 requests and 10K tokens per
       // minute): wait a minute, go one small page at a time, and carry on where it stopped.
-      if (!/429/.test(err instanceof Error ? err.message : String(err))) throw err;
+      const message = err instanceof Error ? err.message : String(err);
+      if (/network error|timeout/i.test(message)) {
+        console.log("corte de red con Voyage: reintento en 20 s");
+        await sleep(20_000);
+        continue;
+      }
+      if (!/429/.test(message)) throw err;
       page = Math.max(24, Math.floor(page / 2));
       parallel = 1;
       console.log(`límite de Voyage: espero 65 s y sigo de a ${page}`);
