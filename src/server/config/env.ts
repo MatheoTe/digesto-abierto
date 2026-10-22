@@ -22,7 +22,8 @@ const envSchema = z.object({
 
   DIGESTO_LLM_PROVIDER: z.enum(["auto", "anthropic", "offline"]).default("auto"),
   DIGESTO_EMBEDDINGS_PROVIDER: z.enum(["auto", "voyage", "local"]).default("auto"),
-  DIGESTO_RERANKER: z.enum(["auto", "voyage", "none"]).default("auto"),
+  /** auto = Voyage with a Voyage key, else Claude Haiku with an Anthropic key, else none. */
+  DIGESTO_RERANKER: z.enum(["auto", "voyage", "claude", "none"]).default("auto"),
 
   DIGESTO_ANSWER_MODEL: z.string().default("claude-sonnet-5-5"),
   DIGESTO_FAST_MODEL: z.string().default("claude-haiku-4-5-20251001"),

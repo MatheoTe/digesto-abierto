@@ -6,7 +6,7 @@ import { VoyageEmbeddingProvider } from "./embeddings/voyage";
 import { AnthropicFaithfulnessJudge, AnthropicLlmProvider } from "./llm/anthropic";
 import { OfflineLlmProvider } from "./llm/offline";
 import type { FaithfulnessJudge, LlmProvider } from "./llm/types";
-import { VoyageReranker, type Reranker } from "./rerank";
+import { ClaudeReranker, VoyageReranker, type Reranker } from "./rerank";
 
 export interface Providers {
   llm: LlmProvider;
@@ -31,9 +31,11 @@ function pick<T extends string>(setting: "auto" | T, hasKey: boolean, real: T, f
 export function resolveProviders(env: Env = getEnv()): Providers {
   const llmChoice = pick(env.DIGESTO_LLM_PROVIDER, !!env.ANTHROPIC_API_KEY, "anthropic", "offline");
   const embChoice = pick(env.DIGESTO_EMBEDDINGS_PROVIDER, !!env.VOYAGE_API_KEY, "voyage", "local");
-  const rerankChoice = pick(env.DIGESTO_RERANKER, !!env.VOYAGE_API_KEY, "voyage", "none");
+  const rerankChoice =
+    env.DIGESTO_RERANKER === "auto" ? (env.VOYAGE_API_KEY ? "voyage" : env.ANTHROPIC_API_KEY ? "claude" : "none") : env.DIGESTO_RERANKER;
 
   if (llmChoice === "anthropic" && !env.ANTHROPIC_API_KEY) throw new Error("DIGESTO_LLM_PROVIDER=anthropic requires ANTHROPIC_API_KEY");
+  if (rerankChoice === "claude" && !env.ANTHROPIC_API_KEY) throw new Error("DIGESTO_RERANKER=claude requires ANTHROPIC_API_KEY");
   if ((embChoice === "voyage" || rerankChoice === "voyage") && !env.VOYAGE_API_KEY) {
     throw new Error("Voyage embeddings/reranking require VOYAGE_API_KEY");
   }
@@ -53,7 +55,12 @@ export function resolveProviders(env: Env = getEnv()): Providers {
       ? new VoyageEmbeddingProvider(env.VOYAGE_API_KEY!, env.DIGESTO_VOYAGE_EMBED_MODEL, EMBEDDING_DIMENSIONS)
       : new LocalHashEmbeddingProvider(EMBEDDING_DIMENSIONS);
 
-  const reranker = rerankChoice === "voyage" ? new VoyageReranker(env.VOYAGE_API_KEY!, env.DIGESTO_VOYAGE_RERANK_MODEL) : null;
+  const reranker =
+    rerankChoice === "voyage"
+      ? new VoyageReranker(env.VOYAGE_API_KEY!, env.DIGESTO_VOYAGE_RERANK_MODEL)
+      : rerankChoice === "claude"
+        ? new ClaudeReranker(env.ANTHROPIC_API_KEY!, env.DIGESTO_FAST_MODEL)
+        : null;
   const judge = env.ANTHROPIC_API_KEY ? new AnthropicFaithfulnessJudge(env.ANTHROPIC_API_KEY, env.DIGESTO_FAST_MODEL) : null;
 
   return { llm, embeddings, reranker, judge };

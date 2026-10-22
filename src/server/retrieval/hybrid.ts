@@ -58,6 +58,8 @@ export interface RetrievalResult {
   timings: { embedMs: number; ftsMs: number; vectorMs: number; fuseMs: number; rerankMs: number };
   embedTokens: number;
   rerankTokens: number;
+  /** Reranker cost when it reports one (LLM reranker); otherwise priced per token by the caller. */
+  rerankCostUsd?: number | null;
 }
 
 export interface RetrievalDeps {
@@ -249,6 +251,7 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
   });
 
   let rerankTokens = 0;
+  let rerankCostUsd: number | null | undefined;
   if (useReranker && reranker) {
     onStage("rerank", "running");
     start = performance.now();
@@ -259,6 +262,7 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
     );
     timings.rerankMs = since(start);
     rerankTokens = reranked.tokens;
+    rerankCostUsd = reranked.costUsd;
     const ordered = reranked.results.map(({ index, score }) => ({ ...results[index], rerankScore: score }));
     const top = ordered.slice(0, options.k).map((o) => o.chunkId);
     const pinned = results.filter((r) => pinnedIds.has(r.chunkId) && !top.includes(r.chunkId));
@@ -270,5 +274,5 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
     onStage("rerank", "skipped");
   }
 
-  return { chunks: results.slice(0, options.k), timings, embedTokens, rerankTokens };
+  return { chunks: results.slice(0, options.k), timings, embedTokens, rerankTokens, rerankCostUsd };
 }

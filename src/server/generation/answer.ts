@@ -167,7 +167,7 @@ export async function answerQuestion(
         outputTokens: 0,
         cacheReadTokens: 0,
         cacheWriteTokens: 0,
-        costUsd: tokenCostUsd(providers.reranker.model, retrieval.rerankTokens),
+        costUsd: retrieval.rerankCostUsd !== undefined ? retrieval.rerankCostUsd : tokenCostUsd(providers.reranker.model, retrieval.rerankTokens),
       });
     }
 

@@ -7,7 +7,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import zlib from 'node:zlib'
 
-const PARALELO = 3
+const PARALELO = 2
 const PAUSA_MS = 250
 const UA = 'DigestoAbierto/0.1 (proyecto open source, github.com/MatheoTe)'
 const metaDir = path.resolve('data/raw/meta')
