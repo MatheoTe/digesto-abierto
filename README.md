@@ -8,7 +8,7 @@
 
 Preguntás como le preguntarías a alguien —*¿qué necesito para habilitar un food truck?*, *¿cuántas horas tiene que trabajar un taxi?*, *¿sigue vigente la Ordenanza 15043?*— y Digesto Abierto responde con el artículo exacto de la ordenanza, el link al texto oficial del Concejo Deliberante y un aviso si esa norma fue derogada o modificada después del texto publicado.
 
-![Respuesta con cita al artículo y aviso de vigencia](docs/respuesta.png)
+![Respuesta: la Ordenanza 27004 cambió en 2026 el artículo que exigía camisa gris y corbata a los taxistas](docs/respuesta.png)
 
 ## Por qué
 
