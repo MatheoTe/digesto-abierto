@@ -117,6 +117,17 @@ export const chunks = pgTable(
 );
 
 /**
+ * Document frequency of every lexeme in the chunk index (ts_stat), refreshed by
+ * corpus:build. Lexical ranking weighs a matched term by its inverse document
+ * frequency: "taxi" (in 415 chunks) counts far more than "trabajo" (in 9,000),
+ * which keeps long budget annexes that mention everything from winning.
+ */
+export const termStats = pgTable("term_stats", {
+  term: text("term").primaryKey(),
+  df: integer("df").notNull(),
+});
+
+/**
  * Content-addressed embedding cache: re-chunking or re-crawling the corpus
  * only pays for chunks whose text actually changed.
  */

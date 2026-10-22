@@ -105,6 +105,11 @@ async function main() {
     if (rows.length >= BATCH) await flush();
   }
   await flush();
+  // Document frequencies for IDF-weighted lexical ranking (see termStats in the schema).
+  await db.transaction(async (tx) => {
+    await tx.execute(sql`truncate term_stats`);
+    await tx.execute(sql`insert into term_stats (term, df) select word, ndoc from ts_stat('select tsv from chunks')`);
+  });
   await handle.close();
   console.log(JSON.stringify(stats));
 }

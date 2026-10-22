@@ -1,4 +1,4 @@
-import { and, asc, cosineDistance, desc, eq, inArray, sql, type SQL } from "drizzle-orm";
+import { and, asc, cosineDistance, desc, eq, inArray, sql } from "drizzle-orm";
 import { corpusEmbeddingInput } from "../corpus/chunks";
 import type { Db } from "../db/client";
 import { chunks, ordinances } from "../db/schema";
@@ -25,6 +25,12 @@ export interface RetrievalOptions {
    * the fusion as a third ranking.
    */
   ordinanceNumbers?: number[];
+  /**
+   * The user's own words. Searched alongside the rewritten query and fused: the
+   * rewrite adds the ordinances' vocabulary, the original keeps its focus when
+   * the rewrite drifts into generic words.
+   */
+  question?: string;
   /** Progress callback for live pipeline visualisation (stage start / end with duration). */
   onStage?: (stage: RetrievalStage, status: "running" | "done" | "skipped", ms?: number) => void;
 }
@@ -70,6 +76,12 @@ export interface RetrievalDeps {
 
 const since = (start: number) => Math.round(performance.now() - start);
 
+/** Best (lowest) rank among the fused lists whose name matches. */
+function bestRank(ranks: Record<string, number | null>, match: (name: string) => boolean): number | null {
+  const found = Object.entries(ranks).flatMap(([name, rank]) => (match(name) && rank !== null ? [rank] : []));
+  return found.length ? Math.min(...found) : null;
+}
+
 /** "Ordenanza 4471", "ord. 15.043", "O-26500": the numbers a question names explicitly. */
 export function referencedOrdinances(text: string): number[] {
   const found = new Set<number>();
@@ -79,22 +91,41 @@ export function referencedOrdinances(text: string): number[] {
   return [...found].slice(0, 3);
 }
 
-async function lexicalSearch(db: Db, query: string, limit: number, scope?: SQL) {
-  const tsQuery = buildTsQuery(query);
-  if (!tsQuery) return [];
-  const q = sql`to_tsquery('es_unaccent', ${tsQuery})`;
-  // Most of the digest is "particular" (a permit for one shop, a street name). A vecino's
-  // question is almost always about a general rule, so general ordinances weigh double.
-  const score = sql<number>`ts_rank_cd(${chunks.tsv}, ${q}, 32) * (case when ${ordinances.scope} = 'G' then 2 else 1 end)`;
-  // ts_rank_cd ties are common for short queries; ts_rank (term frequency) breaks most of them.
-  const tieBreak = sql<number>`ts_rank(${chunks.tsv}, ${q})`;
-  return db
-    .select({ id: chunks.id, score })
-    .from(chunks)
-    .innerJoin(ordinances, eq(ordinances.number, chunks.ordinanceNumber))
-    .where(and(sql`${chunks.tsv} @@ ${q}`, eq(ordinances.inForce, true), scope))
-    .orderBy(desc(score), desc(tieBreak), asc(chunks.id))
-    .limit(limit);
+/**
+ * Lexical ranking, BM25-style: each query lexeme that a chunk contains adds its
+ * inverse document frequency, so the rare, specific word ("taxi", "pirotecnia")
+ * decides and the common ones ("horas", "trabajo") only break ties. Longer
+ * chunks are damped (a 300-line budget annex mentions everything), lexemes in
+ * more than 12% of chunks are ignored, and general ordinances weigh 30% more:
+ * most of the digest is particular (a permit for one shop, a street name) and
+ * a vecino's question is almost always about a general rule.
+ */
+async function lexicalSearch(db: Db, query: string, limit: number): Promise<{ id: string; score: number }[]> {
+  const text = buildTsQuery(query)?.split(" | ").join(" ");
+  if (!text) return [];
+  const res = (await db.execute(sql`
+    with n as (select greatest(reltuples, 1)::float8 as n from pg_class where relname = 'chunks'),
+    terms as (
+      select distinct s.term, ln((n.n - s.df + 0.5) / (s.df + 0.5) + 1) as idf
+      from unnest(tsvector_to_array(to_tsvector('es_unaccent', ${text}))) as l(term)
+      join term_stats s on s.term = l.term
+      cross join n
+      where s.df < greatest(n.n * 0.12, 50)
+    ),
+    hits as (
+      select c.id, sum(t.idf) as s
+      from terms t
+      join chunks c on c.tsv @@ quote_literal(t.term)::tsquery
+      group by c.id
+    )
+    select c.id, (h.s / (1 + 0.15 * ln(1 + c.token_count / 50.0)) * (case when o.scope = 'G' then 1.3 else 1 end))::float8 as score
+    from hits h
+    join chunks c on c.id = h.id
+    join ordinances o on o.number = c.ordinance_number
+    where o.in_force
+    order by score desc, c.id
+    limit ${limit}`)) as unknown as { rows: { id: string; score: number }[] };
+  return res.rows.map((r) => ({ id: r.id, score: Number(r.score) }));
 }
 
 async function vectorSearch(db: Db, vector: number[], model: string, limit: number) {
@@ -131,6 +162,69 @@ async function referencedSearch(db: Db, query: string, numbers: number[], limit:
   return { records, articles };
 }
 
+/** "Art. 13º (parte 2 de 3)" -> 13; "Anexo I" -> null. */
+function articleNumber(label: string | null): number | null {
+  const m = label ? /^Art\. (\d+)/.exec(label) : null;
+  return m ? Number(m[1]) : null;
+}
+
+const MAX_AMENDMENT_PARENTS = 10;
+const MAX_AMENDMENTS = 6;
+
+/**
+ * For the best-ranked articles of ordinances with later amendments, the chunks
+ * of those amending ordinances that name the same article number and the
+ * amended ordinance ("Artículo 13º de la Ordenanza Nº 4471", also "4.471").
+ * They are inserted right after the article they amend.
+ */
+async function withAmendments(db: Db, results: RetrievedChunk[]): Promise<RetrievedChunk[]> {
+  const parents = results
+    .filter((r) => r.kind === "article" && r.laterAmendments.length > 0 && articleNumber(r.label) !== null)
+    .slice(0, MAX_AMENDMENT_PARENTS);
+  if (!parents.length) return results;
+  const present = new Set(results.map((r) => r.chunkId));
+  const conditions = parents.map((p) => {
+    const n = String(p.ordinanceNumber);
+    const dotted = n.length > 3 ? `${n.slice(0, -3)}\\.?${n.slice(-3)}` : n;
+    return sql`(${chunks.ordinanceNumber} = any(${sql.raw(`array[${p.laterAmendments.map(Number).join(",")}]::int[]`)})
+      and ${chunks.content} ~* ${`art[ií]culos?\\s*${articleNumber(p.label)}\\s*[º°o]?[^0-9]`}
+      and ${chunks.content} ~ ${`(^|[^0-9.])${dotted}([^0-9]|$)`})`;
+  });
+  const found = await db
+    .select(selectRetrieved)
+    .from(chunks)
+    .innerJoin(ordinances, eq(ordinances.number, chunks.ordinanceNumber))
+    .where(and(sql`${chunks.kind} <> 'record'`, sql`(${sql.join(conditions, sql` or `)})`))
+    .limit(MAX_AMENDMENTS * 2);
+  const out = [...results];
+  let added = 0;
+  for (const parent of parents) {
+    const n = articleNumber(parent.label);
+    const mine = found.filter(
+      (f) =>
+        !present.has(f.chunkId) &&
+        parent.laterAmendments.includes(f.ordinanceNumber) &&
+        new RegExp(`art[ií]culos?\\s*${n}\\s*[º°o]?[^0-9]`, "i").test(f.content),
+    );
+    for (const f of mine) {
+      if (added >= MAX_AMENDMENTS) break;
+      present.add(f.chunkId);
+      const at = out.findIndex((r) => r.chunkId === parent.chunkId) + 1;
+      out.splice(at, 0, {
+        ...f,
+        laterAmendments: f.laterAmendments ?? [],
+        ftsRank: null,
+        vectorRank: null,
+        vectorSimilarity: null,
+        fusedScore: parent.fusedScore,
+        rerankScore: null,
+      });
+      added++;
+    }
+  }
+  return out;
+}
+
 const selectRetrieved = {
   chunkId: chunks.id,
   ordinanceNumber: chunks.ordinanceNumber,
@@ -159,7 +253,7 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
   const { db, embeddings, reranker } = deps;
   // A words-only deployment has no vectors to search.
   const mode = embeddings.kind === "none" ? "fts" : (options.mode ?? "hybrid");
-  const candidates = Math.max(options.candidates ?? 30, options.k);
+  const candidates = Math.max(options.candidates ?? 40, options.k);
   const named = options.ordinanceNumbers ?? [];
   const timings = { embedMs: 0, ftsMs: 0, vectorMs: 0, fuseMs: 0, rerankMs: 0 };
   let embedTokens = 0;
@@ -168,17 +262,26 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
   const runFts = async () => {
     if (mode === "vector") {
       onStage("fts", "skipped");
-      return { general: [] as { id: string }[], named: { records: [] as { id: string }[], articles: [] as { id: string }[] } };
+      return {
+        general: [] as { id: string }[],
+        variants: [] as { id: string }[][],
+        original: [] as { id: string }[],
+        named: { records: [] as { id: string }[], articles: [] as { id: string }[] },
+      };
     }
     onStage("fts", "running");
     const start = performance.now();
-    const [general, namedRows] = await Promise.all([
-      lexicalSearch(db, query, candidates),
+    const asked = options.question?.trim();
+    // The rewrite may carry several search lines (multi-query): each one is its own ranking.
+    const lines = query.split("\n").map((l) => l.trim()).filter(Boolean);
+    const [variants, original, namedRows] = await Promise.all([
+      Promise.all(lines.map((line) => lexicalSearch(db, line, candidates))),
+      asked && !lines.includes(asked) ? lexicalSearch(db, asked, candidates) : Promise.resolve([]),
       referencedSearch(db, query, named, Math.min(candidates, 10)),
     ]);
     timings.ftsMs = since(start);
     onStage("fts", "done", timings.ftsMs);
-    return { general, named: namedRows };
+    return { general: variants[0] ?? [], variants: variants.slice(1), original, named: namedRows };
   };
 
   const runVector = async () => {
@@ -190,7 +293,7 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
     let start = performance.now();
     let embedded;
     try {
-      embedded = await embeddings.embedQuery(query);
+      embedded = await embeddings.embedQuery(options.question?.trim() || query.split("\n")[0]);
     } catch (err) {
       // A rate-limited or unreachable embedding API degrades the search to words only;
       // it never fails the question.
@@ -215,6 +318,8 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
   const fused = reciprocalRankFusion(
     [
       { name: "fts", ids: fts.general.map((r) => r.id) },
+      { name: "question", ids: fts.original.map((r) => r.id) },
+      ...fts.variants.map((rows, i) => ({ name: `fts${i + 2}`, ids: rows.map((r) => r.id) })),
       { name: "vector", ids: vectorRows.map((r) => r.id) },
       { name: "named", ids: [...fts.named.records, ...fts.named.articles].map((r) => r.id) },
     ],
@@ -227,7 +332,7 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
   // A named ordinance's record card answers "is it in force / what is it about": it always
   // makes the pool, whatever its fused rank, and survives the reranker below.
   const pinnedIds = new Set(fts.named.records.map((r) => r.id));
-  const top = fused.slice(0, useReranker ? Math.min(candidates, 24) : options.k);
+  const top = fused.slice(0, useReranker ? Math.min(candidates, 40) : options.k);
   const pool = [...fused.filter((f) => pinnedIds.has(f.id) && !top.includes(f)), ...top];
   if (pool.length === 0) {
     onStage("rerank", "skipped");
@@ -254,7 +359,7 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
       {
         ...row,
         laterAmendments: row.laterAmendments ?? [],
-        ftsRank: item.ranks.fts,
+        ftsRank: bestRank(item.ranks, (name) => name === "question" || name.startsWith("fts")),
         vectorRank: item.ranks.vector,
         vectorSimilarity: similarity.get(item.id) ?? null,
         fusedScore: item.score,
@@ -262,6 +367,11 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
       },
     ];
   });
+
+  // Follow the amendment chain: when an article of an ordinance that was amended later made
+  // the pool, add the article of the later ordinance that rewrote it ("Modifícase el
+  // Artículo 13º de la Ordenanza Nº 4471…"). The consolidated text may not include it yet.
+  results = await withAmendments(db, results);
 
   let rerankTokens = 0;
   let rerankCostUsd: number | null | undefined;

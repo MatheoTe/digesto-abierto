@@ -189,17 +189,17 @@ describe("offline extractive answerer", () => {
 });
 
 describe("AnthropicLlmProvider", () => {
-  it("rewrites queries with the fast model and reports usage", async () => {
+  it("rewrites queries into up to three search lines with the fast model and reports usage", async () => {
     const create = vi.fn().mockResolvedValue({
       model: "claude-haiku-4-5-20251001",
-      content: [{ type: "text", text: "paid time off days per year\nignored second line" }],
+      content: [{ type: "text", text: "1. taxi turno diario\n- turno obligatorio taxímetro\n\"servicio taxi horario\"\nfourth line dropped" }],
       usage: { input_tokens: 40, output_tokens: 8, cache_read_input_tokens: 0, cache_creation_input_tokens: 0 },
     });
     const client = { messages: { create } } as unknown as Anthropic;
     const llm = new AnthropicLlmProvider({ apiKey: "k", answerModel: "claude-sonnet-5-5", fastModel: "claude-haiku-4-5-20251001", effort: "low", client });
 
-    const res = await llm.rewriteQuery("how many holidays do I get?");
-    expect(res.query).toBe("paid time off days per year");
+    const res = await llm.rewriteQuery("¿Cuántas horas trabaja un taxi?");
+    expect(res.query).toBe("taxi turno diario\nturno obligatorio taxímetro\nservicio taxi horario");
     expect(res.usage).toMatchObject({ model: "claude-haiku-4-5-20251001", inputTokens: 40, outputTokens: 8 });
     expect(create.mock.calls[0][0]).toMatchObject({ model: "claude-haiku-4-5-20251001", max_tokens: 200 });
   });

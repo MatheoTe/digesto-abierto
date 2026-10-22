@@ -1,0 +1,511 @@
+{
+  "summary": {
+    "runAt": "2026-10-22T16:07:35.417Z",
+    "providers": {
+      "llm": "claude-sonnet-5-5",
+      "embeddings": "none",
+      "reranker": "claude-haiku-4-5-20251001",
+      "offline": false
+    },
+    "questions": 24,
+    "answerable": 20,
+    "unanswerable": 4,
+    "retrievalRecallAt8": 0.8,
+    "mrr": 0.775,
+    "citedCorrectOrdinance": null,
+    "keyFacts": null,
+    "falseAbstentions": null,
+    "correctAbstentions": null,
+    "citationPrecision": null,
+    "faithfulness": null,
+    "avgCostUsd": null,
+    "avgLatencyMs": null,
+    "closedBook": null
+  },
+  "rows": [
+    {
+      "id": "taxi-turno",
+      "question": "¿Cuántas horas por día tiene que trabajar un taxi?",
+      "answerable": true,
+      "tags": [
+        "parafrasis"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "4471 Art. 16º",
+        "27004 Art. 5º",
+        "4471 Art. 20º",
+        "27004 Art. 7º",
+        "4471 Art. 22º",
+        "27004 Art. 16º",
+        "15434 Art. 23º (parte 1 de 3)",
+        "14438 Art. 22º (parte 1 de 3)"
+      ]
+    },
+    {
+      "id": "fumar-plaza",
+      "question": "¿Se puede fumar en una plaza donde hay juegos para chicos?",
+      "answerable": true,
+      "tags": [
+        "parafrasis"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "20104 Art. 2º (parte 1 de 2)",
+        "24194 Art. 2º (parte 1 de 3)",
+        "25845 Art. 2º (parte 1 de 2)",
+        "20104 Art. 1º",
+        "25845 Art. 1º",
+        "4544 Art. 49º ter",
+        "25845 Art. 3º",
+        "20104 Art. 3º"
+      ]
+    },
+    {
+      "id": "fumar-shopping",
+      "question": "¿Está prohibido fumar en un shopping o en un cine?",
+      "answerable": true,
+      "tags": [
+        "lista"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "24194 Art. 2º (parte 1 de 3)",
+        "20104 Art. 2º (parte 2 de 2)",
+        "25845 Art. 2º (parte 2 de 2)",
+        "20104 Art. 1º",
+        "20104 Art. 3º bis",
+        "25845 Art. 6º",
+        "20104 Art. 6º",
+        "20104 Ficha"
+      ]
+    },
+    {
+      "id": "pirotecnia-calle",
+      "question": "¿Se puede vender pirotecnia en la calle?",
+      "answerable": true,
+      "tags": [
+        "lexica"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "14450 Art. 3º",
+        "14450 Ficha",
+        "17324 Art. 6º",
+        "17324 Ficha",
+        "14450 Art. 2º",
+        "26580 Anexo II (parte 43 de 102)",
+        "19652 Art. 8º (parte 11 de 17)",
+        "19659 Anexo II (parte 41 de 99)"
+      ]
+    },
+    {
+      "id": "alcohol-noche",
+      "question": "¿Un kiosco puede venderme cerveza a la una de la mañana?",
+      "answerable": true,
+      "tags": [
+        "parafrasis"
+      ],
+      "recall": 0,
+      "rr": 0,
+      "retrieved": [
+        "20397 Art. 10º",
+        "15743 Art. 7º",
+        "15743 Art. 16º",
+        "23276 Art. 8º",
+        "25969 Art. 2º",
+        "24959 Art. 8º (parte 10 de 24)",
+        "23022 Art. 8º (parte 10 de 25)",
+        "19398 Art. 3º"
+      ]
+    },
+    {
+      "id": "boliche-menores",
+      "question": "¿Hasta qué hora puede quedarse un chico de 16 en un boliche?",
+      "answerable": true,
+      "tags": [
+        "parafrasis"
+      ],
+      "recall": 1,
+      "rr": 0.5,
+      "retrieved": [
+        "14519 Art. 1º",
+        "14519 Art. 2º",
+        "14519 Art. 8º",
+        "14519 Art. 3º",
+        "4240 Art. 1º",
+        "16463 Art. 7º",
+        "4323 Art. 1º",
+        "20099 Art. 1º (parte 2 de 3)"
+      ]
+    },
+    {
+      "id": "boliche-menores-14",
+      "question": "¿Un chico de 13 años puede entrar a una matinée bailable?",
+      "answerable": true,
+      "tags": [
+        "parafrasis"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "14519 Art. 1º",
+        "14519 Art. 2º",
+        "14519 Art. 3º",
+        "16714 Art. 1º",
+        "16714 Ficha",
+        "16714 Art. 2º",
+        "16714 Art. 3º",
+        "14519 Ficha"
+      ]
+    },
+    {
+      "id": "moto-casco",
+      "question": "¿Es obligatorio el casco para andar en moto?",
+      "answerable": true,
+      "tags": [
+        "lexica"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "9220 Art. 1º",
+        "9220 Art. 3º",
+        "19899 Art. 5º",
+        "13972 Art. 90º",
+        "15426 Art. 3º",
+        "10448 Art. 1º",
+        "10448 Ficha",
+        "10448 Art. 2º (parte 3 de 3)"
+      ]
+    },
+    {
+      "id": "poda-arbol",
+      "question": "¿Quién se encarga de podar los árboles de la vereda?",
+      "answerable": true,
+      "tags": [
+        "parafrasis"
+      ],
+      "recall": 0,
+      "rr": 0,
+      "retrieved": [
+        "9784 Art. 2º",
+        "9784 Art. 12º",
+        "9784 Art. 13º",
+        "6997 ANEXO I (parte 2 de 29)",
+        "21292 Art. 4º (parte 1 de 3)",
+        "20659 Art. 2º",
+        "7075 Art. 8º",
+        "26845 ANEXO II (parte 2 de 9)"
+      ]
+    },
+    {
+      "id": "cesto-basura",
+      "question": "¿Tengo que poner un cesto para la basura en la vereda de mi casa?",
+      "answerable": true,
+      "tags": [
+        "parafrasis"
+      ],
+      "recall": 0,
+      "rr": 0,
+      "retrieved": [
+        "21037 Art. 3º",
+        "21037 Art. 16º",
+        "21037 Art. 11º",
+        "21037 Art. 17º",
+        "22920 Art. 30º",
+        "22920 Art. 21º (parte 4 de 5)",
+        "22361 Art. 42º (parte 4 de 31)",
+        "24994 Art. 2º"
+      ]
+    },
+    {
+      "id": "ruido-obra-noche",
+      "question": "¿Una obra en construcción puede hacer ruido a las 23?",
+      "answerable": true,
+      "tags": [
+        "parafrasis"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "12032 Art. 5º (parte 1 de 4)",
+        "16026 Art. 1º",
+        "7942 Art. 13º",
+        "12032 Art. 13º",
+        "12236 ANEXOS (parte 1 de 4)",
+        "6997 ANEXO I (parte 23 de 54)",
+        "21664 Art. 3º",
+        "15817 Anexo II (parte 2 de 46)"
+      ]
+    },
+    {
+      "id": "ruido-parlante-colectivo",
+      "question": "¿Se puede escuchar música sin auriculares en el colectivo?",
+      "answerable": true,
+      "tags": [
+        "parafrasis"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "20851 Art. 1º",
+        "20851 Ficha",
+        "12032 Art. 5º (parte 3 de 4)",
+        "13839 Art. 44º",
+        "7982 Art. 2º",
+        "7942 Art. 4º (parte 1 de 2)",
+        "7942 Art. 4º (parte 2 de 2)",
+        "22920 Art. 27º"
+      ]
+    },
+    {
+      "id": "cuidacoches",
+      "question": "¿Hay un registro municipal de cuidacoches?",
+      "answerable": true,
+      "tags": [
+        "parafrasis"
+      ],
+      "recall": 0,
+      "rr": 0,
+      "retrieved": [
+        "2450 Art. 5º",
+        "21629 Art. 2º",
+        "19900 Art. 2º",
+        "18614",
+        "9784 Art. 27º",
+        "15814 Anexo I",
+        "12927 Art. 6º",
+        "24073 Art. 4º"
+      ]
+    },
+    {
+      "id": "ambulante-comerciante",
+      "question": "¿Puede tener permiso de venta ambulante alguien que ya tiene un comercio?",
+      "answerable": true,
+      "tags": [
+        "parafrasis"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "1457 Art. 16º",
+        "4036 Art. 10º",
+        "1457 Art. 9º",
+        "4036",
+        "7308 Art. 4º",
+        "4560 Art. 4º",
+        "4560 Art. 5º",
+        "12760 Ficha"
+      ]
+    },
+    {
+      "id": "guardavidas-zonas",
+      "question": "¿Cuántos guardavidas tiene que haber como mínimo en la zona sur?",
+      "answerable": true,
+      "tags": [
+        "numero"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "11265 Art. 58º",
+        "11265 Anexo VI .C",
+        "21026 Art. 58º",
+        "14269 Art. 5º",
+        "15054 Anexo I",
+        "21026 Art. 64º",
+        "11265 Art. 66º",
+        "11265 Art. 61º"
+      ]
+    },
+    {
+      "id": "vigencia-15043",
+      "question": "¿Sigue vigente la Ordenanza 15043?",
+      "answerable": true,
+      "tags": [
+        "vigencia",
+        "identificador"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "15043 Ficha",
+        "12826 Ficha",
+        "5636 Art. 2º",
+        "22489 Art. 4º",
+        "5636 Ficha",
+        "16030",
+        "20093 Art. 2º",
+        "7869 Art. 4º"
+      ]
+    },
+    {
+      "id": "que-dice-26500",
+      "question": "¿Qué dice la Ordenanza 26500?",
+      "answerable": true,
+      "tags": [
+        "identificador"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "26500 Ficha",
+        "26500 Art. 1º",
+        "26500 Art. 2º",
+        "22997 Art. 5º",
+        "21061 Art. 10º (parte 1 de 7)",
+        "21491 Art. 11º",
+        "24329 Art. 9º",
+        "25174 Art. 5º"
+      ]
+    },
+    {
+      "id": "que-modifico-27004",
+      "question": "¿Qué cambió la Ordenanza 27004?",
+      "answerable": true,
+      "tags": [
+        "identificador",
+        "vigencia"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "27004 Ficha",
+        "27004 Art. 17º",
+        "27004 Art. 3º",
+        "27004 Art. 20º (parte 1 de 3)",
+        "27004 Art. 4º",
+        "27004 Art. 15º",
+        "27004 Art. 20º (parte 2 de 3)",
+        "27004 Art. 9º"
+      ]
+    },
+    {
+      "id": "taxi-camisa",
+      "question": "¿El taxista tiene que usar camisa gris y corbata?",
+      "answerable": true,
+      "tags": [
+        "vigencia",
+        "parafrasis"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "27004 Art. 4º",
+        "4471 Art. 13º",
+        "19740 Art. 16º",
+        "27004 Art. 13º (parte 1 de 2)",
+        "24962 Anexo II (parte 32 de 97)",
+        "22597 Anexo I (parte 41 de 105)",
+        "26195 Anexo II (parte 34 de 99)",
+        "22081 Anexo I (parte 41 de 105)"
+      ]
+    },
+    {
+      "id": "taxi-aplicaciones",
+      "question": "¿Los taxis pueden trabajar con aplicaciones como Uber?",
+      "answerable": true,
+      "tags": [
+        "vigencia",
+        "parafrasis"
+      ],
+      "recall": 1,
+      "rr": 1,
+      "retrieved": [
+        "27004 Art. 9º",
+        "27001 Art. 1º",
+        "23928 Ficha",
+        "9294 Art. 7º (parte 2 de 4)",
+        "10542 Art. 1º (parte 1 de 3)",
+        "4471 Art. 57º (parte 1 de 2)",
+        "22917 Art. 1º (parte 4 de 7)",
+        "18226 Art. 2º"
+      ]
+    },
+    {
+      "id": "sin-pasaporte",
+      "question": "¿Cómo saco el pasaporte en Mar del Plata?",
+      "answerable": false,
+      "tags": [
+        "fuera-de-alcance"
+      ],
+      "recall": 1,
+      "rr": 0,
+      "retrieved": [
+        "25123 Art. 1º",
+        "25123 Art. 1º",
+        "20643 Art. 2º",
+        "20691 Art. 1º",
+        "25175 Art. 3º",
+        "6937 Anexo I (parte 1 de 7)",
+        "1713 Art. 22º (parte 2 de 4)",
+        "21060 Art. 5º"
+      ]
+    },
+    {
+      "id": "sin-aguinaldo",
+      "question": "¿Cuándo se paga el aguinaldo?",
+      "answerable": false,
+      "tags": [
+        "fuera-de-alcance"
+      ],
+      "recall": 1,
+      "rr": 0,
+      "retrieved": [
+        "25221 Art. 3º",
+        "25221 Art. 1º",
+        "25221 Ficha",
+        "25221 Art. 2º",
+        "16789 ANEXO A (parte 24 de 32)",
+        "9671 Art. 5º",
+        "11704 Anexo I (parte 12 de 12)",
+        "15993 Art. 3º"
+      ]
+    },
+    {
+      "id": "sin-iva",
+      "question": "¿Qué alícuota de IVA paga un restaurante?",
+      "answerable": false,
+      "tags": [
+        "fuera-de-alcance"
+      ],
+      "recall": 1,
+      "rr": 0,
+      "retrieved": [
+        "16571 Art. 2º",
+        "18632 Art. 8º (parte 1 de 8)",
+        "13937 Art. 3º",
+        "13937 Art. 2º",
+        "13937 Art. 1º",
+        "13937 Ficha",
+        "24990 Art. 6º",
+        "24990 Art. 5º"
+      ]
+    },
+    {
+      "id": "sin-intendente",
+      "question": "¿Cuál es el sueldo del intendente este mes?",
+      "answerable": false,
+      "tags": [
+        "fuera-de-alcance"
+      ],
+      "recall": 1,
+      "rr": 0,
+      "retrieved": [
+        "14438 Art. 14º",
+        "11866 Art. 14º",
+        "11271 Art. 10º",
+        "10754 Art. 10º",
+        "15434 Art. 15º",
+        "14438 Art. 33º",
+        "15817 Anexo II (parte 21 de 46)",
+        "15817 Art. 12º"
+      ]
+    }
+  ]
+}

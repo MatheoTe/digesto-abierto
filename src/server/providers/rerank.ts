@@ -80,7 +80,9 @@ export class ClaudeReranker implements Reranker {
 
   async rerank(query: string, documents: string[], topK: number): Promise<RerankResult> {
     if (documents.length === 0) return { results: [], tokens: 0, costUsd: 0 };
-    const passages = documents.map((d, i) => `<fragmento n="${i}">\n${d.slice(0, 1500)}\n</fragmento>`).join("\n");
+    // 700 characters carry the ordinance, the article and its first sentences: enough to judge
+    // relevance, and it keeps 40 candidates at a few thousand tokens.
+    const passages = documents.map((d, i) => `<fragmento n="${i}">\n${d.slice(0, 700)}\n</fragmento>`).join("\n");
     const res = await this.client.messages.parse({
       model: this.model,
       max_tokens: 1024,

@@ -23,7 +23,7 @@ export async function createTestDb(): Promise<DbHandle> {
 }
 
 export async function resetDb(handle: DbHandle): Promise<void> {
-  await handle.db.execute(sql`TRUNCATE traces, embedding_cache, chunks, ordinances CASCADE`);
+  await handle.db.execute(sql`TRUNCATE traces, embedding_cache, chunks, ordinances, term_stats CASCADE`);
 }
 
 /** Loads the fictional fixture digest the same way corpus-build does, and embeds what is in force. */
@@ -41,4 +41,8 @@ export async function loadFixtureCorpus(handle: DbHandle, embeddings: EmbeddingP
       .insert(chunks)
       .values(built.map((c, i) => ({ ...c, embedding: vectors[i] ?? null, embeddingModel: vectors[i] ? embeddings.model : null })));
   }
+  // Same as corpus-build: document frequencies for the lexical ranking.
+  await handle.db.execute(sql`TRUNCATE term_stats`);
+  await handle.db.execute(sql`INSERT INTO term_stats (term, df) SELECT word, ndoc FROM ts_stat('select tsv from chunks')`);
+  await handle.db.execute(sql`ANALYZE chunks`);
 }

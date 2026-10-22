@@ -62,7 +62,13 @@ export function PipelineView({ stages, compact = false }: { stages: StageMap; co
       </ol>
       {rewrite && !compact && (
         <p className="truncate text-center text-[11px] text-muted-foreground">
-          buscando <span className="font-mono text-foreground/80">“{rewrite}”</span>
+          buscando{" "}
+          {rewrite.split("\n").map((line, i) => (
+            <span key={line}>
+              {i > 0 && " · "}
+              <span className="font-mono text-foreground/80">“{line}”</span>
+            </span>
+          ))}
         </p>
       )}
     </div>

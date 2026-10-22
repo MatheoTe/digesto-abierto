@@ -78,12 +78,15 @@ export class AnthropicLlmProvider implements LlmProvider {
         system: REWRITE_SYSTEM_PROMPT,
         messages: [{ role: "user", content: buildRewriteUserMessage(question, history) }],
       });
-      const text = res.content
+      // Up to three search lines; retrieval runs each one and fuses the rankings.
+      const lines = res.content
         .flatMap((b) => (b.type === "text" ? [b.text] : []))
-        .join(" ")
-        .split("\n")[0]
-        .trim();
-      return { query: text || question, usage: toUsage(res.model, res.usage) };
+        .join("\n")
+        .split("\n")
+        .map((l) => l.replace(/^\s*(?:\d+[.)]|[-*•])\s*/, "").replace(/^["“]|["”]$/g, "").trim())
+        .filter(Boolean)
+        .slice(0, 3);
+      return { query: lines.length ? lines.join("\n") : question, usage: toUsage(res.model, res.usage) };
     } catch (err) {
       wrap(err);
     }

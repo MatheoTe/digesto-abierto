@@ -99,6 +99,7 @@ async function main() {
       const rewrite = await providers.llm.rewriteQuery(q.question);
       const res = await retrieve({ db, embeddings: providers.embeddings, reranker: providers.reranker }, rewrite.query, {
         k: K,
+        question: q.question,
         ordinanceNumbers: [...new Set([...referencedOrdinances(q.question), ...referencedOrdinances(rewrite.query)])],
       });
       sources = res.chunks.map((c, i) => ({ ...c, index: i + 1 }) as SourceView);

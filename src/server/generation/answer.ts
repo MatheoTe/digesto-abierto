@@ -140,6 +140,7 @@ export async function answerQuestion(
       rewrittenQuery,
       {
         k: input.k,
+        question: input.question,
         // Numbers named in the question itself; the rewrite may drop or reformat them.
         ordinanceNumbers: [...new Set([...referencedOrdinances(input.question), ...referencedOrdinances(rewrittenQuery)])],
         onStage: (name, status, d) => stage(name, status, d),

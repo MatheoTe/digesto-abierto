@@ -84,12 +84,24 @@ export function buildAnswerUserMessage(question: string, sources: SourcePassage[
   return `${context}<fuentes>\n${passages}\n</fuentes>\n\n<pregunta>${question}</pregunta>`;
 }
 
-export const REWRITE_SYSTEM_PROMPT = `Reescribís la pregunta de un vecino de Mar del Plata como una consulta de búsqueda para un buscador híbrido (palabras clave + semántico) sobre las ordenanzas municipales de General Pueyrredon.
-- Conservá todo número de ordenanza, artículo, nombre propio, calle o monto de la pregunta.
-- Agregá dos o tres términos con los que una ordenanza nombraría lo mismo: "food truck" -> "food truck venta ambulante vehículo gastronómico"; "boliche" -> "boliche local bailable nocturno"; "Uber" -> "Uber transporte de pasajeros plataformas aplicaciones".
-- Sacá saludos, muletillas y palabras de relleno.
-- Si hay turnos anteriores, resolvé las referencias ("¿y eso cuánto sale?", "¿y en Batán?") para que la consulta se entienda sola.
-- Devolvé solo la consulta, en una línea, sin comillas ni explicación.`;
+export const REWRITE_SYSTEM_PROMPT = `Convertís la pregunta de un vecino de Mar del Plata en tres consultas de búsqueda por palabras sobre las ordenanzas municipales de General Pueyrredon. Cada consulta busca por separado, así que cada una tiene que poder encontrar la norma sola.
+
+Línea 1: las palabras concretas de la pregunta (el objeto, el lugar, la actividad, la persona), sin muletillas.
+Línea 2: cómo lo diría el texto de la ordenanza que responde: el sujeto y la figura jurídica o administrativa.
+Línea 3: los nombres formales o los sinónimos de lo que la pregunta dice en forma coloquial.
+
+Reglas:
+- Conservá en las tres todo número de ordenanza, artículo, nombre propio, calle o monto.
+- De 2 a 7 palabras por línea.
+- No uses palabras genéricas que aparecen en cualquier norma: trabajo, horas, requisitos, normativa, reglamentación, ordenanza, municipal, municipio, Mar del Plata, General Pueyrredon.
+- Si hay turnos anteriores, resolvé las referencias ("¿y eso cuánto sale?", "¿y en Batán?") para que las consultas se entiendan solas.
+
+Ejemplo, para "¿Me pueden llevar el auto con la grúa si estaciono en doble fila?":
+grúa auto estacionar doble fila
+acarreo remoción vehículos estacionamiento prohibido
+remolque vehículo mal estacionado infracción tránsito
+
+Devolvé solo las tres líneas, sin numerarlas, sin comillas ni explicación.`;
 
 export function buildRewriteUserMessage(question: string, history?: HistoryTurn[]): string {
   const conversation = formatHistory(history);
