@@ -1,0 +1,59 @@
+{
+  "name": "digesto-abierto",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "vercel-build": "npm run db:migrate && next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run --project unit --project integration",
+    "test:unit": "vitest run --project unit",
+    "test:integration": "vitest run --project integration",
+    "test:e2e": "playwright test",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "tsx --env-file-if-exists=.env scripts/migrate.ts",
+    "eval": "tsx --env-file-if-exists=.env eval/run.ts",
+    "crawl": "node scripts/crawl/meta.mjs && node scripts/crawl/textos.mjs && node scripts/crawl/fichas.mjs",
+    "corpus:build": "tsx --env-file-if-exists=.env scripts/corpus-build.ts",
+    "corpus:embed": "tsx --env-file-if-exists=.env scripts/corpus-embed.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
+    "@radix-ui/react-slot": "^1.5.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.45.4",
+    "lucide-react": "^1.57.0",
+    "motion": "^14.2.0",
+    "next": "16.4.0",
+    "next-themes": "^0.4.6",
+    "pg": "^8.23.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1",
+    "tailwind-merge": "^3.7.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.0",
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^24.19.2",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.11",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.0.4"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

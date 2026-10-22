@@ -1,0 +1,21 @@
+services:
+  postgres:
+    # pgvector's image is the official Postgres one plus pgvector; unaccent ships with it.
+    image: pgvector/pgvector:pg17
+    container_name: digesto-postgres
+    environment:
+      POSTGRES_USER: digesto
+      POSTGRES_PASSWORD: digesto
+      POSTGRES_DB: digesto
+    ports:
+      - "5432:5432"
+    volumes:
+      - digesto-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U digesto -d digesto"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  digesto-pgdata:

@@ -1,0 +1,538 @@
+{
+  "id": "1d905ec8-4f4d-49b4-b704-bd0ec7589324",
+  "prevId": "182fc10b-c586-48f0-8609-9fe3583c69ef",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.chunks": {
+      "name": "chunks",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "ordinance_number": {
+          "name": "ordinance_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "ordinal": {
+          "name": "ordinal",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "label": {
+          "name": "label",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "heading_path": {
+          "name": "heading_path",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "context": {
+          "name": "context",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "token_count": {
+          "name": "token_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "content_hash": {
+          "name": "content_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "embedding": {
+          "name": "embedding",
+          "type": "halfvec(1024)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "embedding_model": {
+          "name": "embedding_model",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tsv": {
+          "name": "tsv",
+          "type": "tsvector",
+          "primaryKey": false,
+          "notNull": true,
+          "generated": {
+            "as": "setweight(to_tsvector('es_unaccent', coalesce(heading_path, '') || ' ' || coalesce(label, '')), 'A') || setweight(to_tsvector('es_unaccent', content), 'B') || setweight(to_tsvector('es_unaccent', context), 'C')",
+            "type": "stored"
+          }
+        }
+      },
+      "indexes": {
+        "chunks_ordinance_ordinal_key": {
+          "name": "chunks_ordinance_ordinal_key",
+          "columns": [
+            {
+              "expression": "ordinance_number",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "ordinal",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "chunks_tsv_idx": {
+          "name": "chunks_tsv_idx",
+          "columns": [
+            {
+              "expression": "tsv",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "gin",
+          "with": {}
+        },
+        "chunks_embedding_hnsw_idx": {
+          "name": "chunks_embedding_hnsw_idx",
+          "columns": [
+            {
+              "expression": "embedding",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last",
+              "opclass": "halfvec_cosine_ops"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "hnsw",
+          "with": {}
+        },
+        "chunks_embedding_model_idx": {
+          "name": "chunks_embedding_model_idx",
+          "columns": [
+            {
+              "expression": "embedding_model",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "chunks_ordinance_number_ordinances_number_fk": {
+          "name": "chunks_ordinance_number_ordinances_number_fk",
+          "tableFrom": "chunks",
+          "tableTo": "ordinances",
+          "columnsFrom": [
+            "ordinance_number"
+          ],
+          "columnsTo": [
+            "number"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.embedding_cache": {
+      "name": "embedding_cache",
+      "schema": "",
+      "columns": {
+        "content_hash": {
+          "name": "content_hash",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "model": {
+          "name": "model",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "embedding": {
+          "name": "embedding",
+          "type": "halfvec(1024)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "embedding_cache_content_hash_model_pk": {
+          "name": "embedding_cache_content_hash_model_pk",
+          "columns": [
+            "content_hash",
+            "model"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.ordinances": {
+      "name": "ordinances",
+      "schema": "",
+      "columns": {
+        "number": {
+          "name": "number",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "source_id": {
+          "name": "source_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "sanctioned_on": {
+          "name": "sanctioned_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "promulgated_on": {
+          "name": "promulgated_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "published_on": {
+          "name": "published_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "summary": {
+          "name": "summary",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "''"
+        },
+        "scope": {
+          "name": "scope",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "character": {
+          "name": "character",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "in_force": {
+          "name": "in_force",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "repealed_by": {
+          "name": "repealed_by",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "excluded_on": {
+          "name": "excluded_on",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "descriptors": {
+          "name": "descriptors",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::text[]"
+        },
+        "relations": {
+          "name": "relations",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "text_source": {
+          "name": "text_source",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "text_url": {
+          "name": "text_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "later_amendments": {
+          "name": "later_amendments",
+          "type": "integer[]",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'{}'::integer[]"
+        },
+        "original_url": {
+          "name": "original_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pdf_url": {
+          "name": "pdf_url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "chunk_count": {
+          "name": "chunk_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "ordinances_in_force_idx": {
+          "name": "ordinances_in_force_idx",
+          "columns": [
+            {
+              "expression": "in_force",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.traces": {
+      "name": "traces",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        },
+        "question": {
+          "name": "question",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "rewritten_query": {
+          "name": "rewritten_query",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "answer": {
+          "name": "answer",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "answerable": {
+          "name": "answerable",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "status": {
+          "name": "status",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "error": {
+          "name": "error",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "llm_provider": {
+          "name": "llm_provider",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "llm_model": {
+          "name": "llm_model",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "embedding_model": {
+          "name": "embedding_model",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "reranker": {
+          "name": "reranker",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "timings": {
+          "name": "timings",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "retrieval": {
+          "name": "retrieval",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "citations": {
+          "name": "citations",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "usage": {
+          "name": "usage",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "cost_usd": {
+          "name": "cost_usd",
+          "type": "numeric(12, 6)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_ms": {
+          "name": "total_ms",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {
+        "traces_created_at_idx": {
+          "name": "traces_created_at_idx",
+          "columns": [
+            {
+              "expression": "created_at",
+              "isExpression": false,
+              "asc": false,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "roles": {},
+  "policies": {},
+  "views": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}
