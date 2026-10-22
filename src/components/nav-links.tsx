@@ -6,8 +6,9 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/", label: "Preguntar" },
-  { href: "/como-funciona", label: "Cómo funciona" },
+  // On phones the logo already goes home; keep the bar to one line.
+  { href: "/", label: "Preguntar", desktopOnly: true },
+  { href: "/como-funciona", label: "Cómo funciona", desktopOnly: false },
 ];
 
 export function NavLinks() {
@@ -29,7 +30,8 @@ function NavList({ pathname }: { pathname: string | null }) {
             key={link.href}
             href={link.href}
             className={cn(
-              "relative rounded-full px-3.5 py-1.5 transition-colors",
+              "relative whitespace-nowrap rounded-full px-3 py-1.5 transition-colors sm:px-3.5",
+              link.desktopOnly && "hidden sm:inline-block",
               active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
             )}
           >
