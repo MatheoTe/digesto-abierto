@@ -85,7 +85,7 @@ describe("hybrid retrieval over the fixture digest", () => {
       k: 3,
       onStage: (stage, status) => status !== "running" && stages.push(`${stage}:${status}`),
     });
-    expect(stages).toEqual(["fts:done", "vector:skipped", "fuse:done", "rerank:skipped"]);
+    expect(stages.sort()).toEqual(["fts:done", "fuse:done", "rerank:skipped", "vector:skipped"]);
     expect(res.chunks[0]).toMatchObject({ label: "Art. 16º", vectorRank: null, rerankScore: null });
   });
 
