@@ -21,7 +21,8 @@ const envSchema = z.object({
   VOYAGE_API_KEY: optionalSecret,
 
   DIGESTO_LLM_PROVIDER: z.enum(["auto", "anthropic", "offline"]).default("auto"),
-  DIGESTO_EMBEDDINGS_PROVIDER: z.enum(["auto", "voyage", "local"]).default("auto"),
+  /** auto = Voyage with a Voyage key, else none (words only). "local" = offline hashed vectors, for tests. */
+  DIGESTO_EMBEDDINGS_PROVIDER: z.enum(["auto", "voyage", "local", "none"]).default("auto"),
   /** auto = Voyage with a Voyage key, else Claude Haiku with an Anthropic key, else none. */
   DIGESTO_RERANKER: z.enum(["auto", "voyage", "claude", "none"]).default("auto"),
 

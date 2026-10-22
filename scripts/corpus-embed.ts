@@ -21,6 +21,11 @@ async function main() {
   const db = handle.db;
   const { embeddings } = getProviders();
   const model = embeddings.model;
+  if (embeddings.kind === "none") {
+    console.log("Sin proveedor de vectores (falta VOYAGE_API_KEY): el sitio busca solo por palabras. Nada que hacer.");
+    await handle.close();
+    return;
+  }
   console.log(`modelo: ${model}`);
 
   // Only ordinances in force are searchable by meaning; repealed ones are reached by number.

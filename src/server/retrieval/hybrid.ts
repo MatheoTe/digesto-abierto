@@ -155,7 +155,8 @@ const selectRetrieved = {
  */
 export async function retrieve(deps: RetrievalDeps, query: string, options: RetrievalOptions): Promise<RetrievalResult> {
   const { db, embeddings, reranker } = deps;
-  const mode = options.mode ?? "hybrid";
+  // A words-only deployment has no vectors to search.
+  const mode = embeddings.kind === "none" ? "fts" : (options.mode ?? "hybrid");
   const candidates = Math.max(options.candidates ?? 30, options.k);
   const named = options.ordinanceNumbers ?? [];
   const timings = { embedMs: 0, ftsMs: 0, vectorMs: 0, fuseMs: 0, rerankMs: 0 };
