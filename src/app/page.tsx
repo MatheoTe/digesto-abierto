@@ -3,14 +3,14 @@ import { AskWorkspace, type Suggestion } from "@/components/ask/ask-workspace";
 import { CorpusStatsSkeleton, CorpusStatsStrip } from "@/components/ask/corpus-stats";
 
 /**
- * Example questions. Each one is in the eval golden set (eval/golden.json),
- * so a change that breaks an example fails CI before it reaches the home page.
+ * Example questions. Each one is in the eval golden set (eval/golden.json):
+ * `npm run eval` checks them against the official text on every run.
  */
 const SUGGESTIONS: Suggestion[] = [
-  { question: "¿Cuántas horas por día tiene que trabajar un taxi?", topic: "taxis" },
-  { question: "¿Qué necesito para habilitar un food truck?", topic: "venta ambulante" },
-  { question: "¿Se puede fumar en un bar?", topic: "tabaco" },
-  { question: "¿Qué pasa si no junto la caca de mi perro?", topic: "mascotas" },
+  { question: "¿El taxista tiene que usar camisa gris y corbata?", topic: "taxis" },
+  { question: "¿Los taxis pueden trabajar con aplicaciones como Uber?", topic: "taxis" },
+  { question: "¿Se puede fumar en una plaza donde hay juegos para chicos?", topic: "tabaco" },
+  { question: "¿Hasta qué hora puede quedarse un chico de 16 en un boliche?", topic: "nocturnidad" },
   { question: "¿Sigue vigente la Ordenanza 15043?", topic: "vigencia" },
 ];
 

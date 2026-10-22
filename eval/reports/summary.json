@@ -1,11 +1,27 @@
 {
-  "runAt": null,
-  "questions": 0,
-  "answerable": 0,
-  "unanswerable": 0,
-  "retrievalRecallAt8": null,
-  "citedCorrectOrdinance": null,
-  "correctAbstentions": null,
-  "faithfulness": null,
-  "closedBook": null
+  "runAt": "2026-10-22T16:10:54.435Z",
+  "providers": {
+    "llm": "claude-sonnet-5-5",
+    "embeddings": "none",
+    "reranker": "claude-haiku-4-5-20251001",
+    "offline": false
+  },
+  "questions": 24,
+  "answerable": 20,
+  "unanswerable": 4,
+  "retrievalRecallAt8": 0.8,
+  "mrr": 0.675,
+  "citedCorrectOrdinance": 0.8,
+  "keyFacts": 0.85,
+  "falseAbstentions": 0.05,
+  "correctAbstentions": 1,
+  "citationPrecision": 0.5133333333333334,
+  "faithfulness": 0.9473684210526315,
+  "avgCostUsd": 0.0191225,
+  "avgLatencyMs": 6352.666666666667,
+  "closedBook": {
+    "correctOrdinance": 0.15,
+    "inventedOrdinances": 0,
+    "keyFacts": 0.2
+  }
 }

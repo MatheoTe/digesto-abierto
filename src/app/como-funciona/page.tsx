@@ -13,19 +13,19 @@ export const metadata: Metadata = {
 const STEPS = [
   {
     title: "Entender la pregunta",
-    body: "Un modelo chico reescribe la pregunta con el vocabulario de las ordenanzas: \"food truck\" también busca \"venta ambulante\" y \"vehículo gastronómico\".",
+    body: "Un modelo chico propone tres búsquedas: con las palabras de la pregunta, con el vocabulario de una ordenanza y con los nombres formales de lo que se dice en la calle (\"la grúa\" también busca \"acarreo de vehículos\").",
   },
   {
-    title: "Buscar de dos maneras",
-    body: "Por palabras, con búsqueda de texto completo en español que ignora tildes, y por significado, con vectores. Si la pregunta nombra una ordenanza por número, se busca también adentro de esa.",
+    title: "Buscar en todo el digesto",
+    body: "Cada búsqueda recorre los 83 mil artículos con texto completo en español que ignora tildes, ponderando las palabras raras sobre las comunes: \"taxi\" pesa mucho más que \"trabajo\". Si la pregunta nombra una ordenanza por número, se busca también adentro de esa.",
   },
   {
-    title: "Combinar y ordenar",
-    body: "Los dos rankings se fusionan (Reciprocal Rank Fusion) y un segundo modelo reordena los mejores candidatos según cuánto responden la pregunta.",
+    title: "Seguir las modificaciones",
+    body: "Si aparece un artículo de una ordenanza que fue modificada después, se suma el artículo de la ordenanza posterior que lo reescribió, aunque el texto actualizado oficial todavía no lo haya incorporado.",
   },
   {
-    title: "Responder citando",
-    body: "Claude responde solo con esos artículos. Cada oración lleva su cita; el servidor descarta cualquier cita a un fragmento que no se le dio. Si no hay respuesta en el digesto, lo dice.",
+    title: "Ordenar y responder citando",
+    body: "Un modelo ordena los 40 mejores candidatos según cuánto responden la pregunta y Claude responde solo con los primeros. Cada oración lleva su cita; el servidor descarta cualquier cita a un fragmento que no se le dio. Si la respuesta no está en el digesto, lo dice.",
   },
   {
     title: "Avisar la vigencia",

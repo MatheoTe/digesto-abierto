@@ -12,7 +12,7 @@ Preguntás como le preguntarías a alguien —*¿qué necesito para habilitar un
 
 ## Por qué
 
-Las ordenanzas de General Pueyrredon son públicas, pero están en miles de archivos sueltos y muchas fueron modificadas varias veces. Para saber qué dice *hoy* una norma hay que seguir esa cadena a mano. Un chatbot general no la sigue: no tiene los textos, inventa números de ordenanza con seguridad y no sabe qué quedó derogado (ver [Evaluación](#evaluación)).
+Las ordenanzas de General Pueyrredon son públicas, pero están en miles de archivos sueltos y muchas fueron modificadas varias veces. Para saber qué dice *hoy* una norma hay que seguir esa cadena a mano. Un chatbot general no tiene esos textos: en nuestra medición, el mismo modelo sin el digesto nombró la ordenanza correcta en el 15% de las preguntas y en el resto contestó que no sabía (ver [Evaluación](#evaluación)).
 
 Digesto Abierto hace tres cosas que un chatbot no:
 
@@ -32,10 +32,10 @@ flowchart LR
   end
   subgraph Pregunta["Pregunta (/api/ask)"]
     Q[pregunta] --> R[reformular<br/>Claude Haiku]
-    R --> F[texto completo<br/>español sin tildes]
-    R --> V[vectores<br/>HNSW halfvec]
+    R --> F[texto completo BM25<br/>pregunta + 3 reformulaciones]
+    R --> V[vectores<br/>opcional]
     R --> N[ordenanzas<br/>nombradas por número]
-    F & V & N --> RRF[fusión RRF] --> RR[reordenar<br/>Voyage rerank] --> G[respuesta citada<br/>Claude Sonnet]
+    F & V & N --> RRF[fusión RRF] --> M[cadena de<br/>modificaciones] --> RR[reordenar<br/>40 candidatos] --> G[respuesta citada<br/>Claude Sonnet]
     G --> C[validar citas<br/>+ aviso de vigencia]
   end
   PG --> F & V & N
@@ -43,7 +43,8 @@ flowchart LR
 
 - **Datos.** `scripts/crawl/` baja, de a pocas peticiones y respetando el `robots.txt`, la ficha de cada ordenanza (resumen, fechas, alcance, abrogación), su página en la Base de Normas (temas y relaciones: qué modifica, qué deroga, quién la modificó) y su texto. Si la Biblioteca publica un *texto actualizado* se usa ese; si no, el original. Todo queda crudo en `data/raw/` y se procesa aparte, así se puede re-procesar sin volver a pedir nada.
 - **Unidad de cita: el artículo.** `src/server/corpus/segment.ts` parte cada texto por artículo (con `bis`, `ter`, anexos), arrastra el título y capítulo, conserva las notas "(Ordenanza 6089, art. 1º)" que marcan de dónde viene cada modificación y descarta firmas y fundamentos. Cada ordenanza suma además una *ficha* con su estado, que es lo que responde "¿sigue vigente?".
-- **Búsqueda híbrida.** Texto completo en Postgres con una configuración `es_unaccent` (stemming en español sin tildes: *habilitación* = *habilitacion*), vectores en pgvector y, si la pregunta nombra una ordenanza, una tercera búsqueda dentro de ella. Los tres rankings se fusionan con Reciprocal Rank Fusion y un reranker ordena los mejores. Solo las ordenanzas vigentes tienen vector; las derogadas se alcanzan por número.
+- **Búsqueda.** Texto completo en Postgres con una configuración `es_unaccent` (stemming en español sin tildes: *habilitación* = *habilitacion*) y un ranking tipo BM25: cada término suma su IDF (tabla `term_stats`), así "taxi" pesa más que "trabajo" y los anexos de presupuesto, que nombran de todo, no ganan. Se busca con la pregunta tal cual y con tres reformulaciones (palabras de la pregunta, vocabulario de ordenanza, nombres formales de lo coloquial); si la pregunta nombra una ordenanza, también adentro de ella; y opcionalmente por significado con pgvector. Los rankings se fusionan con Reciprocal Rank Fusion y un reranker (Voyage o Claude Haiku) ordena los 40 mejores.
+- **Cadena de modificaciones.** Si entre los candidatos aparece un artículo de una ordenanza modificada después, se suma el artículo de la ordenanza posterior que lo reescribió ("Modifícase el Artículo 13º de la Ordenanza Nº 4471…"), aunque el texto actualizado oficial todavía no lo incorpore.
 - **Respuesta.** Claude responde solo con los fragmentos numerados, cita cada oración y conoce el estado de cada fuente (vigente, texto actualizado u original, modificaciones no incorporadas). Las preguntas de seguimiento usan la conversación para reformular.
 - **Costos acotados.** Cada pregunta queda registrada con su costo; el sitio deja de responder por el día al llegar a un tope configurable (`DIGESTO_DAILY_BUDGET_USD`) y limita preguntas por persona.
 
@@ -52,7 +53,20 @@ flowchart LR
 `eval/golden.json` tiene preguntas reales con su respuesta verificada a mano contra el texto oficial, incluidas preguntas que el digesto no responde. `npm run eval` corre el pipeline completo sobre el corpus real y, como línea de base, le hace las mismas preguntas al mismo modelo sin el digesto.
 
 <!-- EVAL:START -->
-_Se completa con la primera corrida de `npm run eval`._
+Última corrida: 22/10/2026, sobre las 22.470 ordenanzas de la base (24 preguntas: 20 con respuesta y 4 sin respuesta en el digesto).
+
+| | Digesto Abierto | Mismo modelo sin el digesto |
+|---|---|---|
+| Responde citando la ordenanza correcta | **80%** | 15% |
+| Incluye los datos clave de la respuesta verificada | **85%** | 20% |
+| Encuentra el artículo correcto entre los 8 primeros | 80% | — |
+| Dice "no lo encontré" cuando el digesto no responde | **100%** | — |
+| Se abstiene cuando sí había respuesta | 5% | — |
+| Afirmaciones respaldadas por la fuente citada (juez: Claude Haiku) | 95% | — |
+
+Costo medio por respuesta: US$ 0,019. Sin el digesto, el modelo casi siempre contesta que no sabe: no inventa, pero tampoco responde. El caso que mejor lo muestra es *¿El taxista tiene que usar camisa gris y corbata?*: el texto actualizado que publica el Concejo todavía exige camisa gris "topo" y corbata, pero la Ordenanza 27004 (junio de 2026) reemplazó ese artículo por "vestimenta adecuada". Digesto Abierto responde con los dos artículos y avisa el cambio.
+
+Esta corrida es **solo por palabras** (sin vectores): Claude reformula la pregunta y Claude Haiku reordena. Con `VOYAGE_API_KEY` se suma la búsqueda por significado sobre las ordenanzas generales y las fichas de todas.
 <!-- EVAL:END -->
 
 ## Correrlo

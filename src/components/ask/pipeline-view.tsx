@@ -17,20 +17,22 @@ const META: Record<PipelineStage, { label: string; icon: typeof Check; hint: str
 
 /** Live view of the query pipeline: each stage lights up as its `stage` event arrives, with its timing. */
 export function PipelineView({ stages, compact = false }: { stages: StageMap; compact?: boolean }) {
-  const reached = PIPELINE.filter((s) => stages[s].status !== "idle").length;
+  // A words-only deployment skips the vector stage: leave it out instead of showing a dash.
+  const visible = PIPELINE.filter((s) => !(s === "vector" && stages.vector.status === "skipped"));
+  const reached = visible.filter((s) => stages[s].status !== "idle").length;
   const rewrite = stages.rewrite.detail;
   return (
     <div className="space-y-2" data-testid="pipeline">
-      <ol className="relative grid grid-cols-6 gap-1.5">
+      <ol className="relative grid gap-1.5" style={{ gridTemplateColumns: `repeat(${visible.length}, minmax(0, 1fr))` }}>
         <span className="absolute inset-x-[8%] top-[15px] h-px bg-border" aria-hidden="true" />
         <motion.span
           aria-hidden="true"
           className="absolute left-[8%] top-[15px] h-px bg-gradient-to-r from-primary/40 via-primary to-vector"
           initial={{ width: 0 }}
-          animate={{ width: `${(Math.max(0, reached - 1) / (PIPELINE.length - 1)) * 84}%` }}
+          animate={{ width: `${(Math.max(0, reached - 1) / (visible.length - 1)) * 84}%` }}
           transition={{ duration: 0.5, ease: "easeOut" }}
         />
-        {PIPELINE.map((stage) => {
+        {visible.map((stage) => {
           const state = stages[stage];
           const { label, icon: Icon, hint } = META[stage];
           const running = state.status === "running";

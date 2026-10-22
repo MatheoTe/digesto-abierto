@@ -1,6 +1,6 @@
 {
   "summary": {
-    "runAt": "2026-10-22T16:07:35.417Z",
+    "runAt": "2026-10-22T16:10:54.435Z",
     "providers": {
       "llm": "claude-sonnet-5-5",
       "embeddings": "none",
@@ -11,16 +11,20 @@
     "answerable": 20,
     "unanswerable": 4,
     "retrievalRecallAt8": 0.8,
-    "mrr": 0.775,
-    "citedCorrectOrdinance": null,
-    "keyFacts": null,
-    "falseAbstentions": null,
-    "correctAbstentions": null,
-    "citationPrecision": null,
-    "faithfulness": null,
-    "avgCostUsd": null,
-    "avgLatencyMs": null,
-    "closedBook": null
+    "mrr": 0.675,
+    "citedCorrectOrdinance": 0.8,
+    "keyFacts": 0.85,
+    "falseAbstentions": 0.05,
+    "correctAbstentions": 1,
+    "citationPrecision": 0.5133333333333334,
+    "faithfulness": 0.9473684210526315,
+    "avgCostUsd": 0.0191225,
+    "avgLatencyMs": 6352.666666666667,
+    "closedBook": {
+      "correctOrdinance": 0.15,
+      "inventedOrdinances": 0,
+      "keyFacts": 0.2
+    }
   },
   "rows": [
     {
@@ -35,13 +39,29 @@
       "retrieved": [
         "4471 Art. 16º",
         "27004 Art. 5º",
+        "4471 Art. 19º",
         "4471 Art. 20º",
-        "27004 Art. 7º",
+        "4471 Art. 3º",
         "4471 Art. 22º",
         "27004 Art. 16º",
-        "15434 Art. 23º (parte 1 de 3)",
-        "14438 Art. 22º (parte 1 de 3)"
-      ]
+        "15434 Art. 23º (parte 1 de 3)"
+      ],
+      "answer": "Según el artículo 16 de la Ordenanza 4471, todo taxi debe cumplir un turno diario obligatorio de servicio de ocho (8) horas. La Municipalidad determina el horario entre estos tres: de 5 a 13, de 13 a 21 y de 21 a 5 [1]. La Ordenanza 27004 (sancionada el 18/06/2026) modifica ese artículo y lo redacta como un turno diario \"mínimo\" obligatorio de ocho (8) horas, con los mismos horarios posibles [2].",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 1,
+      "costUsd": 0.01931,
+      "totalMs": 5852,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No sé con certeza cuántas horas por día debe trabajar un taxi según la normativa del Partido de General Pueyrredon, y no quiero inventarte un número de ordenanza ni de artículo. Tampoco puedo confirmar que la ordenanza fije una cantidad mínima de horas diarias. Podría estar regulada por turnos, por jornada de servicio o por obligaciones de prestación del servicio.\n\nPara saberlo con precisión, podés consultar el digesto municipal en el sitio del Concejo Deliberante de General Pueyrredon, buscando \"taxis\" o \"servicio público de automóviles de alquiler con taxímetro\". También podés consultarlo en la Dirección de Transporte y Tránsito de la Municipalidad.\n\nSi me pasás el texto de la ordenanza, te ayudo a encontrar el artículo que responde tu pregunta.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "fumar-plaza",
@@ -54,14 +74,30 @@
       "rr": 1,
       "retrieved": [
         "20104 Art. 2º (parte 1 de 2)",
-        "24194 Art. 2º (parte 1 de 3)",
         "25845 Art. 2º (parte 1 de 2)",
         "20104 Art. 1º",
         "25845 Art. 1º",
         "4544 Art. 49º ter",
-        "25845 Art. 3º",
-        "20104 Art. 3º"
-      ]
+        "24194 Art. 2º (parte 1 de 3)",
+        "23457 Art. 16º",
+        "16714 Art. 2º"
+      ],
+      "answer": "No, está prohibido. El artículo 2º de la Ordenanza 20104 prohíbe fumar o sostener tabaco encendido o similar en plazas, parques, paseos y espacios públicos donde existan áreas de juegos para chicos, areneros, circuitos aeróbicos o sectores para deporte y recreación infantil públicos [1]. La Ordenanza 25845 reproduce esa misma prohibición en su artículo 2º [2]. Además, el artículo 1º de la Ordenanza 20104 declara esos lugares como libres de humo de tabaco y similares [3].\n\nQuien fume en esos lugares puede ser sancionado con apercibimiento y/o multa del 0,15 al 1,5 %, según el artículo 49º ter de la Ordenanza 4544 [5]. Las fuentes no aclaran sobre qué base se calcula ese porcentaje.",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 0.75,
+      "costUsd": 0.023219,
+      "totalMs": 5962,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No tengo la información confirmada para darte el número de ordenanza ni el artículo que regule fumar en plazas con juegos infantiles en General Pueyrredon, y prefiero no inventarlos.\n\nLa normativa nacional (Ley 26.687) y la provincial de Buenos Aires prohíben fumar en espacios cerrados de acceso público. Que alcancen a los espacios abiertos como las plazas depende de lo que haya dispuesto cada municipio. Si Mar del Plata tiene una ordenanza específica sobre espacios públicos libres de humo, no puedo citártela con certeza.\n\nPara confirmarlo podés consultar el digesto del Honorable Concejo Deliberante de General Pueyrredon o el Boletín Municipal, o llamar a la Dirección de Inspección General o al área de Salud municipal.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": true
+      }
     },
     {
       "id": "fumar-shopping",
@@ -73,15 +109,31 @@
       "recall": 1,
       "rr": 1,
       "retrieved": [
-        "24194 Art. 2º (parte 1 de 3)",
-        "20104 Art. 2º (parte 2 de 2)",
         "25845 Art. 2º (parte 2 de 2)",
-        "20104 Art. 1º",
-        "20104 Art. 3º bis",
+        "20104 Art. 2º (parte 2 de 2)",
+        "25845 Art. 2º (parte 1 de 2)",
+        "24194 Art. 2º (parte 1 de 3)",
+        "20104 Art. 2º (parte 1 de 2)",
         "25845 Art. 6º",
         "20104 Art. 6º",
-        "20104 Ficha"
-      ]
+        "20104 Art. 1º"
+      ],
+      "answer": "Sí, está prohibido en ambos. El artículo 2º de la Ordenanza 20104 (texto actualizado, vigente) prohíbe fumar o sostener tabaco encendido o similar en todos los espacios cerrados, públicos o privados, con acceso público [5]. Entre ellos enumera los \"shopping\" o paseos de compras cerrados y las salas de teatro, cine o complejos de cines y otros espectáculos públicos que se realizan en espacios cerrados [2].\n\nLa Ordenanza 25845 trae la misma prohibición y el mismo listado en su artículo 2º [1, 3].\n\nEl artículo 6º exceptúa, entre otros, a los patios, terrazas, balcones y demás espacios al aire libre de los lugares cerrados de acceso público que cuenten con sistemas de ventilación independientes u otros mecanismos que garanticen la purificación del aire y eviten el traslado de partículas hacia las zonas donde está prohibido fumar [7].",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 0.4,
+      "costUsd": 0.022465,
+      "totalMs": 7113,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No puedo citarte con certeza la ordenanza de General Pueyrredon ni su artículo, así que prefiero no inventarlos.\n\nEn términos generales, fumar en espacios cerrados de acceso público, como shoppings y cines, está prohibido por la **Ley nacional 26.687**, que rige en todo el país, incluido Mar del Plata. T",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": true
+      }
     },
     {
       "id": "pirotecnia-calle",
@@ -95,13 +147,29 @@
       "retrieved": [
         "14450 Art. 3º",
         "14450 Ficha",
-        "17324 Art. 6º",
-        "17324 Ficha",
-        "14450 Art. 2º",
-        "26580 Anexo II (parte 43 de 102)",
-        "19652 Art. 8º (parte 11 de 17)",
-        "19659 Anexo II (parte 41 de 99)"
-      ]
+        "24686 Art. 1º",
+        "24686 Ficha",
+        "14450 Art. 5º",
+        "14450 Art. 4º",
+        "19659 Anexo II (parte 41 de 99)",
+        "14450 Art. 7º"
+      ],
+      "answer": "No. El artículo 3º de la Ordenanza 14450 prohíbe la venta ambulante o en la vía pública de cualquier artículo de pirotecnia [1]. Además, la Ordenanza 24686 convalidó un decreto que prohíbe en todo el Partido de General Pueyrredon la comercialización y el expendio, gratuito u oneroso, al público minorista o mayorista, de artificios de todo tipo de pirotecnia y cohetería con efecto sonoro [3].\n\nLas infracciones a la Ordenanza 14450 se consideran \"de especial gravedad\" según el Código de Faltas Municipal [6]. Entre el 15 de diciembre y el 10 de enero, la ordenanza prevé un operativo anual de Control Especial [2], durante el cual a las infracciones detectadas se les aplican las máximas sanciones [5].",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 0.2,
+      "costUsd": 0.018074,
+      "totalMs": 5393,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No sé con certeza cuál es la norma ni el artículo que regula la venta de pirotecnia en la vía pública en General Pueyrredon, así que prefiero no darte un número de ordenanza que podría ser incorrecto.\n\nLo que sí puedo decirte con cautela es que la venta ambulante o callejera requiere habilitación o permiso municipal, y que la pirotecnia está sujeta además a normativa nacional (ANMaC/RENAR) y provincial. En el distrito también existen restricciones sobre la pirotecnia sonora, pero no puedo confirmarte su número ni su alcance exacto.\n\nPara tener la respuesta correcta, podés consultar:\n- el Digesto de Ordenanzas del HCD de General Pueyrredon (online),\n- la Dirección de Inspección General de la Municipalidad.\n\nSi me pasás el texto de la ordenanza, te ayudo a interpretarla.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "alcohol-noche",
@@ -113,15 +181,33 @@
       "recall": 0,
       "rr": 0,
       "retrieved": [
-        "20397 Art. 10º",
-        "15743 Art. 7º",
         "15743 Art. 16º",
+        "15743 Art. 7º",
+        "20397 Art. 10º",
         "23276 Art. 8º",
         "25969 Art. 2º",
-        "24959 Art. 8º (parte 10 de 24)",
-        "23022 Art. 8º (parte 10 de 25)",
-        "19398 Art. 3º"
-      ]
+        "15743 Ficha",
+        "25969 Art. 1º",
+        "24959 Art. 8º (parte 10 de 24)"
+      ],
+      "answer": "Las fuentes no fijan un horario de venta de bebidas alcohólicas, así que no puedo confirmar si es posible a la una de la mañana. El artículo 7 de la Ordenanza 15743 dice que, para la venta y el expendio de bebidas alcohólicas \"en cualquier hora del día\", los comercios deben cumplir con el Decreto nº 1382/03 de la Provincia de Buenos Aires [2]. El texto de ese decreto no está entre las fuentes.\n\nLo que sí dice la norma sobre los kioscos es que deben exhibir, en un lugar visible sobre el exterior del local, un cartel con la inscripción \"No se venden bebidas alcohólicas\" (artículo 16 de la Ordenanza 15743) [1]. Además, la Ordenanza 25969 exige la Licencia anual para comercializar bebidas alcohólicas a los comercios que la tengan [5].\n\nFalta el contenido del Decreto 1382/03 de la Provincia y otras normas municipales sobre horarios de expendio.",
+      "abstained": false,
+      "keyFacts": false,
+      "citedRelevant": false,
+      "citationPrecision": 0,
+      "costUsd": 0.01828,
+      "totalMs": 5983,
+      "faithfulness": 0.75,
+      "unsupported": [
+        "The answer claims that Article 7 of Ordinance 15743 says that for the sale and distribution of alcoholic beverages 'at any hour of the day' (en cualquier hora del día), but the source actually states this phrase refers to the requirement to comply with Provincial Decree 1382/03, not that sales are permitted at any hour."
+      ],
+      "closedBook": {
+        "answer": "No sé con certeza si en General Pueyrredon un kiosco puede vender cerveza a la una de la mañana, y no quiero inventarte un número de ordenanza ni de artículo. Sé que en la provincia de Buenos Aires hay normas que limitan la venta de alcohol para llevar en horario nocturno, y que la Ley nacional 24.788 prohíbe venderles alcohol a menores de 18, pero no puedo confirmarte el horario exacto que fija la normativa local.\n\nPara saberlo con seguridad, podés consultar el digesto municipal en la web del Concejo Deliberante o preguntar en la Dirección de Inspección General de la Municipalidad.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "boliche-menores",
@@ -135,13 +221,29 @@
       "retrieved": [
         "14519 Art. 1º",
         "14519 Art. 2º",
-        "14519 Art. 8º",
         "14519 Art. 3º",
-        "4240 Art. 1º",
-        "16463 Art. 7º",
-        "4323 Art. 1º",
-        "20099 Art. 1º (parte 2 de 3)"
-      ]
+        "14519 Art. 5º",
+        "14519 Art. 4º",
+        "14519 Art. 6º",
+        "14519 Art. 7º",
+        "19398 Art. 3º"
+      ],
+      "answer": "Según el artículo 2º de la Ordenanza 14519, los menores de entre catorce (14) y dieciocho (18) años pueden permanecer en los locales bailables y establecimientos similares hasta las veinticuatro (24) horas [2]. Un chico de 16 entra en ese rango.\n\nAdemás, el artículo 3º de esa ordenanza dice que los locales deben organizar su actividad para que no coincidan menores de esas edades con mayores de dieciocho (18) años. Solo se admite la concurrencia simultánea cuando no se vendan, suministren, exhiban o consuman bebidas alcohólicas [3].",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 0.5,
+      "costUsd": 0.017034,
+      "totalMs": 5862,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No tengo certeza sobre esa respuesta y prefiero no inventarte un horario, un número de ordenanza ni un artículo. En Mar del Plata los menores suelen tener un régimen distinto al de los mayores, con franjas horarias y eventos específicos como las matinés, y la normativa provincial también interviene. Pero no puedo confirmarte qué ordenanza municipal fija el límite para un chico de 16 ni cuál es el horario exacto.\n\nPara tener el dato correcto, podés consultar el Digesto Municipal en la web del Concejo Deliberante de General Pueyrredon o llamar a la Dirección de Inspección General de la Municipalidad. Si tenés el número de ordenanza, puedo ayudarte a interpretarlo.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "boliche-menores-14",
@@ -151,17 +253,35 @@
         "parafrasis"
       ],
       "recall": 1,
-      "rr": 1,
+      "rr": 0.5,
       "retrieved": [
-        "14519 Art. 1º",
         "14519 Art. 2º",
+        "14519 Art. 1º",
         "14519 Art. 3º",
-        "16714 Art. 1º",
-        "16714 Ficha",
         "16714 Art. 2º",
+        "16714 Art. 1º",
+        "16139 Art. 4º",
         "16714 Art. 3º",
-        "14519 Ficha"
-      ]
+        "16714 Ficha"
+      ],
+      "answer": "Según el artículo 1 de la Ordenanza 14519, no: está prohibido en el Partido de General Pueyrredon admitir menores de catorce (14) años en establecimientos de esparcimiento como locales bailables, confiterías bailables, discotecas, salas de baile, pubs y otros donde se realicen actividades similares [2]. Los menores de entre catorce (14) y dieciocho (18) años pueden permanecer en esos lugares hasta las veinticuatro (24) horas [1].\n\nLas fuentes no dicen expresamente si esta prohibición alcanza a los \"bailes estudiantiles\" o \"matinée\" como tales, aunque la Ordenanza 16714 los menciona como actividades bailables de menores de 18 años [5]. Esa parte no está cubierta de forma directa.",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 0.3333333333333333,
+      "costUsd": 0.016956,
+      "totalMs": 6550,
+      "faithfulness": 0.75,
+      "unsupported": [
+        "Las fuentes no dicen expresamente si esta prohibición alcanza a los \"bailes estudiantiles\" o \"matinée\" como tales - De hecho, la Ordenanza 16714 Art. 1º específicamente menciona \"bailes estudiantiles\" o \"matinée\" como lugares donde se prohíbe cigarrillos, confirmando que estas son actividades bailables reguladas bajo la misma normativa que abarca establecimientos de esparcimiento."
+      ],
+      "closedBook": {
+        "answer": "No sé con certeza la respuesta y prefiero no inventar un número de ordenanza ni un artículo. No tengo a mano el texto de la norma de Mar del Plata/General Pueyrredon que regula las matinées, así que no puedo confirmar el rango de edad permitido.\n\nEn general, las matinées se destinan a adolescentes, con un mínimo de edad cercano a los 13 y un máximo de 17 años. Eso varía según la norma de cada municipio, y 13 años podría estar justo en el límite, o no.\n\nPara tener el dato exacto, podés consultar:\n- El digesto de ordenanzas del Concejo Deliberante de General Pueyrredon (online).\n- La Dirección de Inspección General de la Municipalidad.\n- El local, que debe cumplir la normativa vigente y puede informar la edad de admisión.\n\nSi me pasás el texto de la ordenanza, te ayudo a interpretarlo.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "moto-casco",
@@ -170,18 +290,34 @@
       "tags": [
         "lexica"
       ],
-      "recall": 1,
-      "rr": 1,
+      "recall": 0,
+      "rr": 0,
       "retrieved": [
-        "9220 Art. 1º",
-        "9220 Art. 3º",
-        "19899 Art. 5º",
-        "13972 Art. 90º",
+        "9220 Art. 7º",
+        "17672 Art. 8º",
         "15426 Art. 3º",
+        "13972 Art. 90º",
         "10448 Art. 1º",
-        "10448 Ficha",
-        "10448 Art. 2º (parte 3 de 3)"
-      ]
+        "19505 Art. 2º",
+        "20091 Art. 4º",
+        "9220 Art. 3º"
+      ],
+      "answer": "Sí. Según el artículo 90 de la Ordenanza 13972, se penaliza con multa del 1 al 50 por ciento a quien circule en motocicletas, motos, motonetas, moticiclos u otros vehículos de dos ruedas a motor (o en cuatriciclos o triciclos a motor) sin usar casco protector. El casco debe estar colocado en la cabeza de forma que la proteja efectivamente y sujeto al maxilar inferior con barbijo provisto de ganchos o botones de seguridad [4].\n\nLa Ordenanza 15426 también exige, para circular, casco reglamentario para el conductor y el acompañante, de acuerdo con la Ley 11430 [3]. Además, según la Ordenanza 19505, los menores de edad deben circular con casco [6]. Y para el servicio de \"delivery\", la Ordenanza 17672 pide cumplir los requisitos de la Ley 11.430, entre ellos el uso de casco [2].\n\nLas fuentes no aclaran a cuánto equivale en pesos el porcentaje de la multa.",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": false,
+      "citationPrecision": 0,
+      "costUsd": 0.017848,
+      "totalMs": 6750,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "Sí, usar casco es obligatorio para conductor y acompañante, pero no puedo decirte el número de ordenanza municipal ni el artículo de General Pueyrredon que lo establece, porque no tengo esa información con certeza.\n\nLo que sé es que la obligación proviene de la Ley Nacional de Tránsito 24.449, a la que adhiere la Provincia de Buenos Aires (Ley 13.927). Esa norma exige casco certificado para circular en moto, pero no te puedo asegurar el inciso exacto. Para confirmar si hay una ordenanza local complementaria, conviene consultar el digesto del Concejo Deliberante de General Pueyrredon o la Dirección de Tránsito municipal",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": true
+      }
     },
     {
       "id": "poda-arbol",
@@ -193,15 +329,33 @@
       "recall": 0,
       "rr": 0,
       "retrieved": [
-        "9784 Art. 2º",
         "9784 Art. 12º",
-        "9784 Art. 13º",
-        "6997 ANEXO I (parte 2 de 29)",
-        "21292 Art. 4º (parte 1 de 3)",
         "20659 Art. 2º",
-        "7075 Art. 8º",
-        "26845 ANEXO II (parte 2 de 9)"
-      ]
+        "3275 Art. 2º",
+        "26192 Art. 5º (parte 3 de 7)",
+        "6217 Art. 2º",
+        "21577 Art. 5º (parte 1 de 5)",
+        "9784 Art. 13º",
+        "9784 Art. 27º"
+      ],
+      "answer": "Las fuentes cubren solo en parte esta pregunta: no hay un artículo que diga directamente quién poda los árboles de la vereda.\n\n- Según la Ordenanza 6217, los convenios con la Municipalidad incluyen la \"poda de árboles en lugares públicos, bajo supervisión municipal\" [5].\n- La Ordenanza Impositiva 2024 (Ordenanza 26192) fija una tasa por la poda selectiva de árboles con hidroelevador: $ 165.550,00 por cada tres horas de trabajo presupuestado y/o efectuado, incluido el transporte de los residuos. Ese monto es de 2024 y puede no ser el actual [4].\n- La Ordenanza Impositiva de 2013 (Ordenanza 21577) también preveía una tasa por la poda selectiva de árboles \"no incluida en el plan de trabajo anual de poda\" ($ 190,00 por unidad), lo que indica que existe un plan anual de poda. Ese monto es de 2013 y puede no ser el actual [6].\n\nNo está cubierto en las fuentes quién debe hacer la poda de un árbol de vereda ni el procedimiento para pedirla.",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": false,
+      "citationPrecision": 0,
+      "costUsd": 0.021905,
+      "totalMs": 6499,
+      "faithfulness": 0.67,
+      "unsupported": [
+        "La Ordenanza Impositiva 2024 (Ordenanza 26192) fija una tasa por la poda selectiva de árboles con hidroelevador: $ 165.550,00 por cada tres horas de trabajo presupuestado y/o efectuado, incluido el transporte de los residuos. Ese monto es de 2024 y puede no ser el actual"
+      ],
+      "closedBook": {
+        "answer": "No tengo con certeza el número de ordenanza ni el artículo que regulan esto en General Pueyrredon, así que prefiero no inventarlos.\n\nEn general, el arbolado de la vereda es patrimonio público y la poda corresponde al Municipio, a través del área de Espacios Verdes. Los vecinos no deberían podar, talar ni extraer ejemplares por su cuenta y tienen que pedir autorización o solicitar el servicio. La Ley provincial 12.276 de la Provincia de Buenos Aires va en el mismo sentido, aunque tampoco puedo citarte el artículo exacto de memoria.\n\nPara la norma local exacta, podés consultar el digesto municipal del Concejo Deliberante o llamar al 147, la línea de atención municipal.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "cesto-basura",
@@ -210,18 +364,34 @@
       "tags": [
         "parafrasis"
       ],
-      "recall": 0,
-      "rr": 0,
+      "recall": 1,
+      "rr": 1,
       "retrieved": [
-        "21037 Art. 3º",
-        "21037 Art. 16º",
-        "21037 Art. 11º",
-        "21037 Art. 17º",
-        "22920 Art. 30º",
-        "22920 Art. 21º (parte 4 de 5)",
-        "22361 Art. 42º (parte 4 de 31)",
-        "24994 Art. 2º"
-      ]
+        "18062 Art. 1º",
+        "18062 Art. 3º",
+        "18062 Ficha",
+        "18062 Art. 4º",
+        "18062 Art. 2º",
+        "3788 Art. 2º",
+        "3788 Ficha",
+        "11380 Art. 8º"
+      ],
+      "answer": "Según la Ordenanza 18062, los frentistas tienen la obligación de colocar cestos, preferentemente con tapa, para depositar las bolsas de residuos en las aceras. Esto rige para viviendas unifamiliares y multifamiliares de hasta doce (12) unidades [1, 3].\n\nHay zonas excluidas de esa obligación: el frente costero entre las avenidas Juan B. Justo y Constitución, y el radio comprendido por las avenidas Colón, Independencia, Libertad y Patricio Peralta Ramos [5]. Las características y dimensiones de los cestos permitidos las tiene que reglamentar y difundir el Departamento Ejecutivo [2].\n\nLas fuentes no incluyen esa reglamentación, así que no puedo decirte qué medidas o tipo de cesto corresponden.",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 0.5,
+      "costUsd": 0.017457,
+      "totalMs": 9329,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No sé con certeza si la normativa te obliga a colocar un cesto en la vereda, y no puedo citarte el número de ordenanza ni el artículo sin arriesgarme a inventarlos.\n\nEn general, en Mar del Plata la recolección domiciliaria se organiza por zonas y horarios, con contenedores en muchas áreas, y hay reglas sobre cuándo se pueden sacar los residuos a la vía pública. Pero no puedo confirmarte si la obligación del cesto existe ni en qué norma está.\n\nPara tener la respuesta exacta, podés consultar:\n- El Digesto Municipal del HCD de General Pueyrredon, buscando \"residuos\" o \"recolección domiciliaria\".\n- EMSUR (Ente Municipal de Servicios Urbanos), que informa los días, horarios y modalidades de cada zona.\n\nSi querés, pasame el texto de la ordenanza que encuentres y te ayudo a interpretarlo.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": true
+      }
     },
     {
       "id": "ruido-obra-noche",
@@ -231,17 +401,33 @@
         "parafrasis"
       ],
       "recall": 1,
-      "rr": 1,
+      "rr": 0.5,
       "retrieved": [
+        "7942 Art. 5º",
         "12032 Art. 5º (parte 1 de 4)",
-        "16026 Art. 1º",
-        "7942 Art. 13º",
         "12032 Art. 13º",
-        "12236 ANEXOS (parte 1 de 4)",
-        "6997 ANEXO I (parte 23 de 54)",
-        "21664 Art. 3º",
-        "15817 Anexo II (parte 2 de 46)"
-      ]
+        "12032 Art. 5º (parte 3 de 4)",
+        "7942 Art. 13º",
+        "12033 Art. 1º (parte 4 de 4)",
+        "16026 Art. 1º",
+        "6997 Anexo a Industria (parte 61 de 83)"
+      ],
+      "answer": "Según el artículo 5º de la Ordenanza 12032, desde las 22 horas y hasta las 6 horas se considera ruido molesto con afectación a la población todo tipo de instalación u obra de construcción, en ámbitos públicos y privados. La excepción son los casos previamente autorizados por la autoridad municipal correspondiente [2]. Por lo tanto, a las 23 una obra en construcción no puede hacer ruido, salvo que tenga esa autorización previa [2].",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 1,
+      "costUsd": 0.019952,
+      "totalMs": 4763,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No tengo certeza sobre el número de ordenanza ni el artículo que regulan los horarios de obra en General Pueyrredon, y prefiero no inventarlos. En general, la normativa municipal sobre ruidos molestos y obras limita los trabajos ruidosos a franjas diurnas, y a las 23 h lo más probable es que estén prohibidos. Pero no puedo confirmarlo con una cita precisa.\n\nPara verificarlo, podés consultar el Digesto Municipal en la web del Concejo Deliberante de General Pueyrredon, o llamar al 147 para consultar o denunciar. Si me pasás el texto de la ordenanza, te ayudo a interpretarlo.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "ruido-parlante-colectivo",
@@ -251,17 +437,33 @@
         "parafrasis"
       ],
       "recall": 1,
-      "rr": 1,
+      "rr": 0.5,
       "retrieved": [
-        "20851 Art. 1º",
         "20851 Ficha",
-        "12032 Art. 5º (parte 3 de 4)",
-        "13839 Art. 44º",
-        "7982 Art. 2º",
-        "7942 Art. 4º (parte 1 de 2)",
-        "7942 Art. 4º (parte 2 de 2)",
-        "22920 Art. 27º"
-      ]
+        "20851 Art. 1º",
+        "18772 Ficha",
+        "18772 Art. 1º",
+        "7877 Art. 9º",
+        "18772 Art. 2º",
+        "4544 Art. 56º (parte 2 de 4)",
+        "12033 Art. 1º (parte 2 de 4)"
+      ],
+      "answer": "No, según las ordenanzas no se puede. El artículo 1º de la Ordenanza 20851 considera ruido molesto el uso de radios, televisores, grabadores, MP3, MP4, MP5 y teléfonos celulares sin sus audífonos individuales en medios de transporte colectivo de personas, calles, paseos y lugares y establecimientos públicos [2]. Además, los medios de transporte público de pasajeros deben tener cartelería que informe esa prohibición dentro de la unidad [2].\n\nEl artículo 56 de la Ordenanza 4544 también incluye entre las contravenciones el uso de cualquier medio de reproducción de sonidos en medios de transporte colectivo de personas [7].\n\nLas fuentes no indican cuál es la sanción concreta para este caso.",
+      "abstained": false,
+      "keyFacts": false,
+      "citedRelevant": true,
+      "citationPrecision": 0.5,
+      "costUsd": 0.01935,
+      "totalMs": 5554,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No tengo la información suficiente para citarte con certeza el número de ordenanza ni el artículo que regula este tema en General Pueyrredon, y prefiero no inventarlos.\n\nEn general, los reglamentos de transporte público de pasajeros suelen prohibir conductas que molesten a otros usuarios, como usar equipos de sonido a volumen audible, y las ordenanzas sobre ruidos molestos pueden aplicarse en esos casos. No puedo confirmarte que eso esté así en Mar del Plata.\n\nPara verificarlo, podés consultar el Digesto Municipal en la web del Concejo Deliberante de General Pueyrredon o preguntar en el EMMOV (Ente Municipal de Movilidad Urbana).",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "cuidacoches",
@@ -275,13 +477,27 @@
       "retrieved": [
         "2450 Art. 5º",
         "21629 Art. 2º",
-        "19900 Art. 2º",
         "18614",
         "9784 Art. 27º",
         "15814 Anexo I",
         "12927 Art. 6º",
-        "24073 Art. 4º"
-      ]
+        "24073 Art. 4º",
+        "22517 Anexo I"
+      ],
+      "answer": "No encontré esto en las ordenanzas vigentes del digesto. Lo único relacionado es el artículo 5º de la Ordenanza 2450, que habla de la reglamentación de la vigilancia y cuidado de vehículos (en la vía pública o en playas de estacionamiento) y del vestuario que deberá usarse [1], pero no menciona ningún registro. Faltaría buscar el texto completo de esa ordenanza o su reglamentación para saber si prevé un registro de cuidacoches.",
+      "abstained": true,
+      "keyFacts": false,
+      "citedRelevant": false,
+      "citationPrecision": 0,
+      "costUsd": 0.011051,
+      "totalMs": 4496,
+      "closedBook": {
+        "answer": "No tengo información confiable sobre si en General Pueyrredon existe un registro municipal de cuidacoches, y prefiero no inventarte un número de ordenanza ni de artículo. Recuerdo que el tema se debatió en el Concejo Deliberante, pero no puedo confirmar que haya una norma vigente que lo cree.\n\nPara verificarlo podés buscar \"cuidacoches\" o \"cuentapropistas de estacionamiento\" en el Digesto Municipal, en el sitio del HCD de General Pueyrredon, o consultar en la Mesa de Entradas del Concejo Deliberante o en la Secretaría de Gobierno municipal. Si me pasás el texto de la ordenanza, te ayudo a interpretarlo.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "ambulante-comerciante",
@@ -296,12 +512,28 @@
         "1457 Art. 16º",
         "4036 Art. 10º",
         "1457 Art. 9º",
-        "4036",
-        "7308 Art. 4º",
-        "4560 Art. 4º",
-        "4560 Art. 5º",
-        "12760 Ficha"
-      ]
+        "2449 Art. 1º (parte 2 de 4)",
+        "1457 Art. 17º",
+        "19709 Art. 4º",
+        "19709 Art. 3º",
+        "15108 Art. 6º"
+      ],
+      "answer": "No. Según el artículo 16 de la Ordenanza 1457, no se concede permiso para instalar paradas fijas ni para circular como vendedor ambulante a personas con comercio establecido [1]. Algo parecido dice el artículo 10 de la Ordenanza 4036 para los puestos: no se concede permiso a quienes tengan un comercio establecido, cualquiera sea su ramo, ni a quienes sean titulares de permisos de venta ambulante [2].",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 1,
+      "costUsd": 0.016845,
+      "totalMs": 5424,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No sé con certeza si una persona que ya tiene un comercio puede obtener un permiso de venta ambulante en General Pueyrredon, y no quiero inventarte un número de ordenanza ni un artículo. Es habitual que estas normativas pongan restricciones o incompatibilidades para quienes ya tienen habilitación comercial, pero no puedo confirmar que ese sea el caso acá ni en qué artículo estaría.\n\nPara verificarlo, podés:\n- Buscar la ordenanza vigente de venta ambulante en el digesto del Honorable Concejo Deliberante de General Pueyrredon.\n- Consultar en la Dirección de Inspección General de la Municipalidad o en el área de Comercio.\n\nSi me pasás el texto de la ordenanza, te ayudo a ubicar el artículo que responde tu pregunta.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "guardavidas-zonas",
@@ -316,12 +548,28 @@
         "11265 Art. 58º",
         "11265 Anexo VI .C",
         "21026 Art. 58º",
+        "21026 Art. 67º",
         "14269 Art. 5º",
-        "15054 Anexo I",
-        "21026 Art. 64º",
-        "11265 Art. 66º",
-        "11265 Art. 61º"
-      ]
+        "11472 Ficha",
+        "13710 Art. 1º",
+        "13710 Ficha"
+      ],
+      "answer": "Según el artículo 58 de la Ordenanza 11265 (sancionada en 1997), la Zona Sur (Escollera Sur / Arroyo Las Brusquitas) debe contar como mínimo con 44 guardavidas [1]. El Anexo VI.C de esa misma ordenanza detalla que son 40 guardavidas más 4 timoneles [2].\n\nPor otro lado, el artículo 5 de la Ordenanza 14269 establece una regla general para playas y unidades fiscales: no puede haber menos de un guardavida cada 80 metros lineales de playa, y uno cada 40 metros en zonas de gran afluencia de público, por turno [5].\n\nLas fuentes no aclaran cómo se articula el número de la Ordenanza 11265, de 1997, con el pliego más reciente de la Ordenanza 21026, que define las zonas Centro y Sur con otras subzonas [3]. Tampoco indican una cantidad mínima actual para la zona Sur en esa última ordenanza.",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 0.25,
+      "costUsd": 0.021729,
+      "totalMs": 7598,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No sé con certeza cuántos guardavidas exige como mínimo la normativa para la zona sur de General Pueyrredon, y no quiero inventarte un número de ordenanza ni de artículo. Esa cantidad suele depender de la ordenanza que regula el servicio de guardavidas y de los pliegos de concesión de los balnearios, y puede haber cambiado con modificaciones recientes.\n\nPara confirmarlo, podés consultar el digesto de ordenanzas en la web del Honorable Concejo Deliberante de General Pueyrredon, o preguntarle al Ente Municipal de Servicios Urbanos (Emsur) o a la Secretaría de Turismo o de Seguridad, según corresponda. Si me pasás el texto de la ordenanza, te ayudo a ubicar el artículo y el número exacto.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "vigencia-15043",
@@ -336,13 +584,31 @@
       "retrieved": [
         "15043 Ficha",
         "12826 Ficha",
-        "5636 Art. 2º",
-        "22489 Art. 4º",
-        "5636 Ficha",
-        "16030",
-        "20093 Art. 2º",
-        "7869 Art. 4º"
-      ]
+        "1459 Art. 2º",
+        "5295 Anexo III",
+        "26669 Art. 3º",
+        "15790 Art. 2º",
+        "1288 Art. 2º",
+        "5295 Anexo III (parte 6 de 7)"
+      ],
+      "answer": "No, la Ordenanza 15043 no está vigente: fue abrogada por la Ordenanza 16200 [1]. Se había sancionado el 14/11/2002 y derogaba los incisos a), b) y c) del artículo 1º de la Ordenanza 11878 y modificaba el renglón cuarto del inciso b) de ese mismo artículo, sobre prohibición de estacionamiento en diversas calles [1].\n\nLa Ordenanza 12826, que sigue vigente, figura como modificada por la Ordenanza 15043 [2].",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 0.5,
+      "costUsd": 0.015266,
+      "totalMs": 5284,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No tengo información confiable sobre el contenido ni el estado actual de la Ordenanza 15043, así que no puedo decirte si sigue vigente ni citar un artículo sin inventarlo. Para saberlo, podés consultar el Digesto de Ordenanzas del Honorable Concejo Deliberante de General Pueyrredon (en el sitio del HCD) o el Boletín Municipal. Ahí figura si fue derogada, modificada o reemplazada por una norma posterior. Si me pasás el texto o el tema, puedo ayudarte a interpretarla.",
+        "named": [
+          15043
+        ],
+        "correctOrdinance": true,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "que-dice-26500",
@@ -354,15 +620,33 @@
       "recall": 1,
       "rr": 1,
       "retrieved": [
-        "26500 Ficha",
         "26500 Art. 1º",
         "26500 Art. 2º",
-        "22997 Art. 5º",
-        "21061 Art. 10º (parte 1 de 7)",
-        "21491 Art. 11º",
-        "24329 Art. 9º",
-        "25174 Art. 5º"
-      ]
+        "26500 Ficha",
+        "26136 Art. 5º",
+        "13712 Art. 5º",
+        "24846 Art. 3º",
+        "26049 Art. 4º",
+        "26050 Art. 4º"
+      ],
+      "answer": "La Ordenanza 26500, sancionada el 31/10/2024, está vigente y otorga el título de \"Visitante Notable\" a Wilfrido Aníbal \"Willy\" Quiroga [3]. Según su artículo 1º, el título se concede por su aporte a la cultura y a la construcción de nuestra identidad y nuestra música nacional [1]. El artículo 2º dispone que se le entregue una copia de la ordenanza, con sus fundamentos, en lugar y fecha a determinar [2].",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 1,
+      "costUsd": 0.017189,
+      "totalMs": 5773,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No tengo información confiable sobre el contenido de la Ordenanza 26500 de General Pueyrredon, y prefiero no inventar qué dice ni citar artículos que no puedo verificar.\n\nPodés consultarla en el digesto de ordenanzas del Honorable Concejo Deliberante de General Pueyrredon (hcdmdp.gob.ar) o en el Boletín Oficial Municipal. Si me pegás el texto o me contás de qué tema trata, te ayudo a interpretarlo y te indico los artículos relevantes.",
+        "named": [
+          26500
+        ],
+        "correctOrdinance": true,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "que-modifico-27004",
@@ -376,14 +660,32 @@
       "rr": 1,
       "retrieved": [
         "27004 Ficha",
+        "4471 Ficha",
+        "27004 Art. 6º",
+        "27004 Art. 16º",
         "27004 Art. 17º",
-        "27004 Art. 3º",
-        "27004 Art. 20º (parte 1 de 3)",
-        "27004 Art. 4º",
+        "27004 Art. 1º",
         "27004 Art. 15º",
-        "27004 Art. 20º (parte 2 de 3)",
-        "27004 Art. 9º"
-      ]
+        "27004 Art. 19º"
+      ],
+      "answer": "La Ordenanza 27004, sancionada el 18/06/2026 y vigente, modifica varios artículos de la Ordenanza 4471 sobre el servicio de taxi y de la Ordenanza 9294 sobre el servicio de \"Remise\" [1]. Entre los cambios que figuran en los fragmentos:\n\n- **Servicio público (art. 2º de la Ordenanza 4471):** el servicio es público, permanente y de prestación obligatoria, con vehículos privados habilitados y conductores autorizados por la municipalidad [6].\n- **Horario (art. 17º):** todo taxi puede mantenerse en servicio sin limitación de horario [3].\n- **Multas (art. 46º):** las infracciones se sancionan con multa de entre veinte (20) y doscientos (200) valores de la bajada de bandera. En casos graves o de reincidencia se puede suspender la licencia entre quince (15) y noventa (90) días corridos, e incluso cancelarla si hay notoria y evidente contumacia [7].\n- **Antigüedad de los coches (art. 50º):** quienes tienen licencias anteriores no pueden prestar servicio con modelos de más de quince (15) años de antigüedad [4].\n- **Reemplazo de vehículos (art. 55º):** quien pide la baja de un vehículo para reemplazarlo debe presentar uno de igual o superior modelo dentro de sesenta (60) días, prorrogables hasta treinta (30) días más por fuerza mayor acreditada. Si la baja es por destrucción total en un accidente de tránsito atribuible a un tercero, el reemplazo puede ser de un modelo inferior [5].\n- **Ordenanza 23.928 (art. 3º):** se redefine qué servicios de transporte abarca, incluyendo taxi, remise, transporte escolar, excursión, auto rural, transporte privado y el contratado por plataforma o aplicación [8].\n\nEstos son solo los artículos incluidos en las fuentes: no tengo el texto de los cambios a la Ordenanza 9294 sobre remises ni de los demás artículos de la norma.",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 1,
+      "costUsd": 0.022883,
+      "totalMs": 8942,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No tengo información confiable sobre el contenido de la Ordenanza 27004 del Partido de General Pueyrredon, así que prefiero no inventar qué modificó ni citar artículos que no puedo verificar.\n\nPodés consultar el texto oficial en el Digesto de Ordenanzas del Honorable Concejo Deliberante de General Pueyrredon (hcdmdp.gob.ar) o en el Boletín Municipal de la Municipalidad. Si me pegás el texto o me contás de qué tema trata (tributario, uso del suelo, tránsito, etc.), te ayudo a interpretarlo y a identificar qué artículos son relevantes.",
+        "named": [
+          27004
+        ],
+        "correctOrdinance": true,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "taxi-camisa",
@@ -394,17 +696,35 @@
         "parafrasis"
       ],
       "recall": 1,
-      "rr": 1,
+      "rr": 0.5,
       "retrieved": [
-        "27004 Art. 4º",
         "4471 Art. 13º",
+        "27004 Art. 4º",
         "19740 Art. 16º",
-        "27004 Art. 13º (parte 1 de 2)",
+        "4471 Art. 3º",
         "24962 Anexo II (parte 32 de 97)",
         "22597 Anexo I (parte 41 de 105)",
         "26195 Anexo II (parte 34 de 99)",
         "22081 Anexo I (parte 41 de 105)"
-      ]
+      ],
+      "answer": "Según el texto actualizado del artículo 13 de la Ordenanza 4471, el conductor debe vestir camisa gris \"topo\" y corbata lisa al tono, con pullover, saco o campera de color similar, todo en buen estado y aseo [1]. Pero la Ordenanza 27004, sancionada el 18/06/2026, modificó ese artículo 13: ahora exige vestimenta adecuada, prolija y acorde a un servicio público de pasajeros, sin mencionar camisa gris ni corbata [2]. Entre las condiciones, pide ropa limpia y en buen estado, prendas acordes a un entorno laboral formal o semi-formal, calzado apropiado y limpio, y prohíbe indumentaria con inscripciones o imágenes ofensivas o inapropiadas [2].\n\nPor otro lado, el artículo 16 de la Ordenanza 19740 dice que el conductor se presentará aseado, vistiendo camisa y corbata [3]. Las fuentes no aclaran cómo se relaciona esa norma con la modificación de la Ordenanza 27004, así que esa parte no está cubierta.",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 0.3333333333333333,
+      "costUsd": 0.023619,
+      "totalMs": 6158,
+      "faithfulness": 0.83,
+      "unsupported": [
+        "the answer states that Ordenanza 27004 was 'sanctioned on 18/06/2026' - this date is in the future and appears to be an error in the source document itself, but the answer reports it as fact without qualification"
+      ],
+      "closedBook": {
+        "answer": "No tengo información confiable sobre eso. No puedo confirmarte que la ordenanza exija camisa gris y corbata, y prefiero no inventar un número de ordenanza ni de artículo.\n\nEl servicio de taxis en General Pueyrredon tiene su reglamento propio, que suele incluir normas sobre presentación del conductor, pero no recuerdo qué dice sobre la vestimenta. Para estar seguro, podés consultar el digesto de ordenanzas en la web del Concejo Deliberante de General Pueyrredon, o preguntar en la Dirección de Transporte municipal.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "taxi-aplicaciones",
@@ -418,14 +738,30 @@
       "rr": 1,
       "retrieved": [
         "27004 Art. 9º",
-        "27001 Art. 1º",
-        "23928 Ficha",
-        "9294 Art. 7º (parte 2 de 4)",
-        "10542 Art. 1º (parte 1 de 3)",
+        "9452 Art. 1º (parte 1 de 4)",
         "4471 Art. 57º (parte 1 de 2)",
-        "22917 Art. 1º (parte 4 de 7)",
-        "18226 Art. 2º"
-      ]
+        "4887 Art. 1º (parte 1 de 2)",
+        "15322 Art. 2º",
+        "7325 Art. 7º",
+        "4790 Art. 4º (parte 62 de 391)",
+        "22917 Art. 1º (parte 4 de 7)"
+      ],
+      "answer": "Los taxis pueden trabajar a través de una plataforma o aplicación digital, pero con condiciones. Según el artículo 9º de la Ordenanza 27004, que incorpora el artículo 30º bis a la Ordenanza 4471, los taxímetros deben inscribirse antes en un \"Registro Especial de Taxímetros Incorporados al Sistema de Aplicaciones Digitales\", que se crea en la Dirección de Transporte de la Municipalidad [1]. Una vez inscriptos, pueden prestar el servicio mediante una plataforma o aplicación, usando un dispositivo móvil y/o un sistema de posicionamiento global [1]. El Departamento Ejecutivo debe establecer los requisitos de inscripción, la modalidad de incorporación de los vehículos y los medios de pago autorizados [1].\n\nAdemás, según el artículo 30º ter, los taxis inscriptos tienen que seguir cumpliendo las demás normas de la Ordenanza 4471 y sus modificatorias, salvo las que sean incompatibles con esta modalidad [1].\n\nLas fuentes no mencionan a Uber en particular ni regulan a otras plataformas o vehículos que no sean taxis.",
+      "abstained": false,
+      "keyFacts": true,
+      "citedRelevant": true,
+      "citationPrecision": 1,
+      "costUsd": 0.022835,
+      "totalMs": 7330,
+      "faithfulness": 1,
+      "unsupported": [],
+      "closedBook": {
+        "answer": "No puedo asegurarte qué dice la ordenanza sobre esto ni citarte un número y un artículo sin arriesgarme a inventarlos.\n\nLo que sé en general es que el servicio de taxis en General Pueyrredon se rige por una ordenanza municipal específica, que creo que es la 6082, aunque no estoy seguro. Uber como plataforma de transporte privado no tiene una regulación propia clara en el Partido, y el tema fue debatido varias veces en el Concejo Deliberante. No sé si hoy existe una norma que autorice o prohíba expresamente que los taxis tomen viajes por aplicaciones, ya sea de Uber o de otras plataformas.\n\nPara tener certeza, conviene consultar el digesto de ordenanzas del Concejo Deliberante de General Pueyrredon o la Dirección de Transporte municipal. Si me pasás el texto de la ordenanza, te ayudo a interpretarlo.",
+        "named": [],
+        "correctOrdinance": false,
+        "wrongOrdinance": false,
+        "keyFacts": false
+      }
     },
     {
       "id": "sin-pasaporte",
@@ -437,15 +773,22 @@
       "recall": 1,
       "rr": 0,
       "retrieved": [
-        "25123 Art. 1º",
-        "25123 Art. 1º",
         "20643 Art. 2º",
         "20691 Art. 1º",
-        "25175 Art. 3º",
-        "6937 Anexo I (parte 1 de 7)",
-        "1713 Art. 22º (parte 2 de 4)",
-        "21060 Art. 5º"
-      ]
+        "25123 Art. 1º",
+        "25123 Art. 10º",
+        "21119 Art. 5º",
+        "20643 Art. 3º",
+        "25123 Art. 1º",
+        "12409 Art. 3º"
+      ],
+      "answer": "No encontré esto en las ordenanzas vigentes del digesto. Las fuentes no explican cómo se tramita el pasaporte, sino que autorizaron operativos temporales del RENAPER en espacios públicos, por lo que faltaría buscar los requisitos y el procedimiento del trámite en sí.\n\nLo que sí figura es que, según la Ordenanza 25123, se autorizó al RENAPER a usar tres espacios públicos con oficinas móviles para tramitar DNI y pasaportes entre el 2 de enero y el 28 de febrero de 2021 [3]. Esos lugares fueron Plaza Colón, Hipólito Yrigoyen y San Martín, y el Torreón del Monje [3]. Se trata de un período ya pasado, así que no sirve como indicación actual.",
+      "abstained": true,
+      "keyFacts": true,
+      "citedRelevant": false,
+      "citationPrecision": 0,
+      "costUsd": 0.019105,
+      "totalMs": 9078
     },
     {
       "id": "sin-aguinaldo",
@@ -458,14 +801,21 @@
       "rr": 0,
       "retrieved": [
         "25221 Art. 3º",
+        "25221 Art. 2º",
         "25221 Art. 1º",
         "25221 Ficha",
-        "25221 Art. 2º",
-        "16789 ANEXO A (parte 24 de 32)",
-        "9671 Art. 5º",
-        "11704 Anexo I (parte 12 de 12)",
-        "15993 Art. 3º"
-      ]
+        "17038 Anexo I",
+        "17038 Ficha",
+        "17038 Art. 1º",
+        "17038 Art. 2º"
+      ],
+      "answer": "No encontré esto en las ordenanzas vigentes del digesto. Las fuentes solo tratan el aguinaldo de forma puntual: la Ordenanza 25221 fija una deducción excepcional equivalente al importe neto de la primera cuota del aguinaldo de ciertos funcionarios de OSSE, y la Ordenanza 17038 autoriza el pago de diferencias salariales por Sueldo Anual Complementario de algunos agentes. Ninguna establece la fecha en que se paga el aguinaldo. Faltaría buscar una norma sobre pago de haberes o cronograma de pagos del personal municipal.",
+      "abstained": true,
+      "keyFacts": true,
+      "citedRelevant": false,
+      "citationPrecision": null,
+      "costUsd": 0.016523,
+      "totalMs": 5793
     },
     {
       "id": "sin-iva",
@@ -477,15 +827,22 @@
       "recall": 1,
       "rr": 0,
       "retrieved": [
-        "16571 Art. 2º",
         "18632 Art. 8º (parte 1 de 8)",
-        "13937 Art. 3º",
-        "13937 Art. 2º",
-        "13937 Art. 1º",
+        "16571 Art. 2º",
         "13937 Ficha",
-        "24990 Art. 6º",
-        "24990 Art. 5º"
-      ]
+        "20711 Art. 21º (parte 3 de 3)",
+        "21175 Art. 21º (parte 3 de 3)",
+        "9908 Ficha",
+        "10342 Art. 2º",
+        "21176 Art. 77º"
+      ],
+      "answer": "No encontré esto en las ordenanzas vigentes del digesto. Las fuentes no tratan el IVA que paga un restaurante (es un impuesto nacional); solo fijan la alícuota de la Tasa por Inspección de Seguridad e Higiene municipal, que habría que buscar si te interesa esa tasa.",
+      "abstained": true,
+      "keyFacts": true,
+      "citedRelevant": false,
+      "citationPrecision": null,
+      "costUsd": 0.018741,
+      "totalMs": 5040
     },
     {
       "id": "sin-intendente",
@@ -497,15 +854,22 @@
       "recall": 1,
       "rr": 0,
       "retrieved": [
-        "14438 Art. 14º",
-        "11866 Art. 14º",
-        "11271 Art. 10º",
-        "10754 Art. 10º",
-        "15434 Art. 15º",
-        "14438 Art. 33º",
         "15817 Anexo II (parte 21 de 46)",
-        "15817 Art. 12º"
-      ]
+        "15817 Art. 12º",
+        "14438 Art. 33º",
+        "11866 Art. 14º",
+        "15434 Art. 15º",
+        "14438 Art. 14º",
+        "18618 Art. 51º",
+        "15817 Anexo III (parte 6 de 16)"
+      ],
+      "answer": "No encontré esto en las ordenanzas vigentes del digesto. Las fuentes no fijan el sueldo actual del intendente; solo hablan de la compensación por gastos de representación, que es otra cosa. Para ver un monto en pesos habría que buscar la ordenanza de presupuesto o de remuneraciones del año en curso.\n\nLo que sí dice el digesto sobre esa compensación:\n- El artículo 14 de la Ordenanza 14438 (sancionada en 2001) fija en DIEZ (10) sueldos mínimos la compensación por gastos de representación del Intendente Municipal [6]. Una redacción igual aparece en el artículo 15 de la Ordenanza 15434 (2003) [5] y en el artículo 14 de la Ordenanza 11866 (1998) [4].\n- El artículo 51 de la Ordenanza 18618 (2008) establece una asignación mensual para gastos de representación, que no está sujeta a rendición de cuentas [7].",
+      "abstained": true,
+      "keyFacts": true,
+      "citedRelevant": false,
+      "citationPrecision": 0,
+      "costUsd": 0.021304,
+      "totalMs": 5938
     }
   ]
 }

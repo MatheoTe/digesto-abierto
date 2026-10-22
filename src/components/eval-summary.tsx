@@ -19,9 +19,11 @@ export function EvalSummary() {
     unanswerable: number;
     retrievalRecallAt8: number | null;
     citedCorrectOrdinance: number | null;
+    keyFacts: number | null;
     correctAbstentions: number | null;
     faithfulness: number | null;
-    closedBook: { correctOrdinance: number | null; inventedOrdinances: number | null } | null;
+    avgCostUsd: number | null;
+    closedBook: { correctOrdinance: number | null; inventedOrdinances: number | null; keyFacts: number | null } | null;
   };
   if (!s.runAt) return null;
   const pct = (v: number | null) => (v === null ? "—" : `${Math.round(v * 100)}%`);
@@ -32,6 +34,7 @@ export function EvalSummary() {
       value: pct(s.citedCorrectOrdinance),
       baseline: s.closedBook ? pct(s.closedBook.correctOrdinance) : undefined,
     },
+    { label: "Incluye los datos clave de la respuesta correcta", value: pct(s.keyFacts), baseline: s.closedBook ? pct(s.closedBook.keyFacts) : undefined },
     { label: "Dice \"no lo encontré\" cuando el digesto no responde", value: pct(s.correctAbstentions) },
     { label: "Afirmaciones respaldadas por la fuente citada", value: pct(s.faithfulness) },
   ];
@@ -53,18 +56,13 @@ export function EvalSummary() {
               {s.closedBook && <td className="px-4 py-2.5 text-right tabular-nums text-muted-foreground">{r.baseline ?? ""}</td>}
             </tr>
           ))}
-          {s.closedBook?.inventedOrdinances !== null && s.closedBook?.inventedOrdinances !== undefined && (
-            <tr>
-              <td className="px-4 py-2.5">Respuestas que nombran una ordenanza que no dice eso</td>
-              <td className="px-4 py-2.5 text-right font-semibold tabular-nums">—</td>
-              <td className="px-4 py-2.5 text-right tabular-nums text-muted-foreground">{pct(s.closedBook.inventedOrdinances)}</td>
-            </tr>
-          )}
         </tbody>
       </table>
       <p className="border-t border-border/60 px-4 py-2 text-xs text-muted-foreground">
         Última medición: {new Date(s.runAt).toLocaleDateString("es-AR", { day: "numeric", month: "long", year: "numeric" })} ·{" "}
-        {s.answerable} preguntas con respuesta y {s.unanswerable} sin respuesta en el digesto.
+        {s.answerable} preguntas con respuesta y {s.unanswerable} sin respuesta en el digesto
+        {s.avgCostUsd !== null ? ` · costo medio por respuesta US$ ${s.avgCostUsd.toFixed(3)}` : ""}. Sin el digesto, el modelo casi siempre
+        contesta que no sabe: no inventa, pero tampoco responde.
       </p>
     </div>
   );
