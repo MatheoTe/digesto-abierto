@@ -41,3 +41,8 @@ next-env.d.ts
 
 # corpus crudo bajado del Concejo (se regenera con npm run crawl)
 /data/raw/
+
+# agregados por la integración de Neon en Vercel
+/.agents/
+/.claude/
+skills-lock.json
