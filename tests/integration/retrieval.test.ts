@@ -67,6 +67,28 @@ describe("hybrid retrieval over the fixture digest", () => {
     expect([...scores].sort((a, b) => b - a)).toEqual(scores);
   });
 
+  it("falls back to words only when the embedding API fails, and keeps the fused order when the reranker fails", async () => {
+    const down = Object.assign(Object.create(embeddings), {
+      kind: "remote" as const,
+      embedQuery: async () => {
+        throw new Error("HTTP 429: rate limited");
+      },
+    });
+    const broken: Reranker = {
+      model: "broken",
+      rerank: async () => {
+        throw new Error("HTTP 429: rate limited");
+      },
+    };
+    const stages: string[] = [];
+    const res = await retrieve({ db: handle.db, embeddings: down, reranker: broken }, "turno diario obligatorio taxis", {
+      k: 3,
+      onStage: (stage, status) => status !== "running" && stages.push(`${stage}:${status}`),
+    });
+    expect(stages).toEqual(["fts:done", "vector:skipped", "fuse:done", "rerank:skipped"]);
+    expect(res.chunks[0]).toMatchObject({ label: "Art. 16º", vectorRank: null, rerankScore: null });
+  });
+
   it("returns nothing for a query with no searchable terms", async () => {
     const res = await retrieve({ db: handle.db, embeddings }, "qué es el", { k: 5, mode: "fts" });
     expect(res.chunks).toEqual([]);

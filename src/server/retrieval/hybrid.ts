@@ -188,7 +188,17 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
     }
     onStage("vector", "running");
     let start = performance.now();
-    const embedded = await embeddings.embedQuery(query);
+    let embedded;
+    try {
+      embedded = await embeddings.embedQuery(query);
+    } catch (err) {
+      // A rate-limited or unreachable embedding API degrades the search to words only;
+      // it never fails the question.
+      console.warn("[digesto] vector stage skipped:", err instanceof Error ? err.message.slice(0, 200) : err);
+      timings.embedMs = since(start);
+      onStage("vector", "skipped");
+      return [];
+    }
     timings.embedMs = since(start);
     embedTokens = embedded.tokens;
     start = performance.now();
@@ -258,19 +268,30 @@ export async function retrieve(deps: RetrievalDeps, query: string, options: Retr
   if (useReranker && reranker) {
     onStage("rerank", "running");
     start = performance.now();
-    const reranked = await reranker.rerank(
-      query,
-      results.map((r) => corpusEmbeddingInput(r)),
-      options.k,
-    );
+    let reranked: Awaited<ReturnType<Reranker["rerank"]>> | null;
+    try {
+      reranked = await reranker.rerank(
+        query,
+        results.map((r) => corpusEmbeddingInput(r)),
+        options.k,
+      );
+    } catch (err) {
+      // Same as the vector stage: without the reranker, the fused order stands.
+      console.warn("[digesto] rerank skipped:", err instanceof Error ? err.message.slice(0, 200) : err);
+      reranked = null;
+    }
     timings.rerankMs = since(start);
-    rerankTokens = reranked.tokens;
-    rerankCostUsd = reranked.costUsd;
-    const ordered = reranked.results.map(({ index, score }) => ({ ...results[index], rerankScore: score }));
-    const top = ordered.slice(0, options.k).map((o) => o.chunkId);
-    const pinned = results.filter((r) => pinnedIds.has(r.chunkId) && !top.includes(r.chunkId));
-    results = [...pinned, ...ordered];
-    onStage("rerank", "done", timings.rerankMs);
+    if (reranked) {
+      rerankTokens = reranked.tokens;
+      rerankCostUsd = reranked.costUsd;
+      const ordered = reranked.results.map(({ index, score }) => ({ ...results[index], rerankScore: score }));
+      const top = ordered.slice(0, options.k).map((o) => o.chunkId);
+      const pinned = results.filter((r) => pinnedIds.has(r.chunkId) && !top.includes(r.chunkId));
+      results = [...pinned, ...ordered];
+    } else {
+      results = [...results.filter((r) => pinnedIds.has(r.chunkId)), ...results.filter((r) => !pinnedIds.has(r.chunkId))];
+    }
+    onStage("rerank", reranked ? "done" : "skipped", reranked ? timings.rerankMs : undefined);
   } else {
     const pinned = results.filter((r) => pinnedIds.has(r.chunkId));
     results = [...pinned, ...results.filter((r) => !pinnedIds.has(r.chunkId))];
