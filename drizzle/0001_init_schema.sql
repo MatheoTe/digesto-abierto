@@ -9,7 +9,7 @@ CREATE TABLE "chunks" (
 	"context" text DEFAULT '' NOT NULL,
 	"token_count" integer NOT NULL,
 	"content_hash" text NOT NULL,
-	"embedding" halfvec(1024),
+	"embedding" halfvec(512),
 	"embedding_model" text,
 	"tsv" "tsvector" GENERATED ALWAYS AS (setweight(to_tsvector('es_unaccent', coalesce(heading_path, '') || ' ' || coalesce(label, '')), 'A') || setweight(to_tsvector('es_unaccent', content), 'B') || setweight(to_tsvector('es_unaccent', context), 'C')) STORED NOT NULL
 );
@@ -17,7 +17,7 @@ CREATE TABLE "chunks" (
 CREATE TABLE "embedding_cache" (
 	"content_hash" text NOT NULL,
 	"model" text NOT NULL,
-	"embedding" halfvec(1024) NOT NULL,
+	"embedding" halfvec(512) NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	CONSTRAINT "embedding_cache_content_hash_model_pk" PRIMARY KEY("content_hash","model")
 );

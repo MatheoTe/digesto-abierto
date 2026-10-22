@@ -1,3 +1,4 @@
+import { EMBEDDING_DIMENSIONS } from "@/server/db/schema";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import type { DbHandle } from "@/server/db/client";
 import { LocalHashEmbeddingProvider } from "@/server/providers/embeddings/local-hash";
@@ -6,7 +7,7 @@ import { retrieve } from "@/server/retrieval/hybrid";
 import { createTestDb, loadFixtureCorpus } from "./helpers";
 
 let handle: DbHandle;
-const embeddings = new LocalHashEmbeddingProvider(1024);
+const embeddings = new LocalHashEmbeddingProvider(EMBEDDING_DIMENSIONS);
 
 beforeAll(async () => {
   handle = await createTestDb();

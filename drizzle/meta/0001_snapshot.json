@@ -1,5 +1,5 @@
 {
-  "id": "1d905ec8-4f4d-49b4-b704-bd0ec7589324",
+  "id": "ea78ef40-567d-40c0-92f3-2074e5002b87",
   "prevId": "182fc10b-c586-48f0-8609-9fe3583c69ef",
   "version": "7",
   "dialect": "postgresql",
@@ -72,7 +72,7 @@
         },
         "embedding": {
           "name": "embedding",
-          "type": "halfvec(1024)",
+          "type": "halfvec(512)",
           "primaryKey": false,
           "notNull": false
         },
@@ -201,7 +201,7 @@
         },
         "embedding": {
           "name": "embedding",
-          "type": "halfvec(1024)",
+          "type": "halfvec(512)",
           "primaryKey": false,
           "notNull": true
         },

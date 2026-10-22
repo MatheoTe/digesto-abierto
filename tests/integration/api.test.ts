@@ -1,3 +1,4 @@
+import { EMBEDDING_DIMENSIONS } from "@/server/db/schema";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import type { AskEvent } from "@/lib/ask-events";
 import type { DbHandle } from "@/server/db/client";
@@ -13,7 +14,7 @@ beforeAll(async () => {
   process.env.DIGESTO_RATE_LIMIT_PER_MINUTE = "1000";
   process.env.DIGESTO_DAILY_BUDGET_USD = "0";
   handle = await createTestDb();
-  await loadFixtureCorpus(handle, new LocalHashEmbeddingProvider(1024));
+  await loadFixtureCorpus(handle, new LocalHashEmbeddingProvider(EMBEDDING_DIMENSIONS));
   // Route handlers use the process-wide DB singleton: point it at the test database.
   (globalThis as { __digestoDb?: Promise<DbHandle> }).__digestoDb = Promise.resolve(handle);
 });

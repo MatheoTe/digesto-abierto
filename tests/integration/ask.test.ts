@@ -1,3 +1,4 @@
+import { EMBEDDING_DIMENSIONS } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { ABSTAIN_ANSWER } from "@/lib/citations";
@@ -14,7 +15,7 @@ import { spentToday } from "@/server/repositories";
 import { createTestDb, loadFixtureCorpus } from "./helpers";
 
 let handle: DbHandle;
-const embeddings = new LocalHashEmbeddingProvider(1024);
+const embeddings = new LocalHashEmbeddingProvider(EMBEDDING_DIMENSIONS);
 const offline: Providers = { llm: new OfflineLlmProvider(), embeddings, reranker: null, judge: null };
 
 beforeAll(async () => {

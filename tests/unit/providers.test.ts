@@ -215,7 +215,7 @@ describe("resolveProviders", () => {
       const providers = resolveProviders(getEnv());
       expect(describeProviders(providers)).toEqual({
         llm: "offline (extractive)",
-        embeddings: "local-hash-v1@1024",
+        embeddings: "local-hash-v1@512",
         reranker: null,
         offline: true,
       });
@@ -236,7 +236,7 @@ describe("resolveProviders", () => {
       DIGESTO_RERANKER: "auto",
     });
     expect(providers.llm.name).toBe("anthropic");
-    expect(providers.embeddings.model).toBe("voyage-4@1024");
+    expect(providers.embeddings.model).toBe("voyage-4@512");
     expect(providers.reranker?.model).toBe("rerank-3");
     expect(providers.judge).not.toBeNull();
   });

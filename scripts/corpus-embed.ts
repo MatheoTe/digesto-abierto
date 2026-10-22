@@ -28,9 +28,14 @@ async function main() {
   }
   console.log(`modelo: ${model}`);
 
-  // Only ordinances in force are searchable by meaning; repealed ones are reached by number.
-  const inForce = inArray(chunks.ordinanceNumber, db.select({ n: ordinances.number }).from(ordinances).where(eq(ordinances.inForce, true)));
-  const pending = and(or(isNull(chunks.embedding), ne(chunks.embeddingModel, model)), inForce);
+  // Searchable by meaning: the record card of every ordinance in force, and the text of the
+  // general ones. Particular ordinances (a permit for one shop, a street name) are most of the
+  // digest; their articles stay reachable by words, and leaving them out keeps the index in a
+  // free Postgres tier. Repealed ordinances are reached by number only.
+  const general = db.select({ n: ordinances.number }).from(ordinances).where(and(eq(ordinances.inForce, true), sql`coalesce(${ordinances.scope}, '') <> 'P'`));
+  const inForce = db.select({ n: ordinances.number }).from(ordinances).where(eq(ordinances.inForce, true));
+  const searchable = or(inArray(chunks.ordinanceNumber, general), and(eq(chunks.kind, "record"), inArray(chunks.ordinanceNumber, inForce)));
+  const pending = and(or(isNull(chunks.embedding), ne(chunks.embeddingModel, model)), searchable);
   const [{ total }] = await db.select({ total: sql<number>`count(*)::int` }).from(chunks).where(pending);
   console.log(`${total} fragmentos sin vector`);
 

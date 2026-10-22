@@ -19,11 +19,12 @@ import {
 /**
  * Every embedding provider is projected to the same width so a single column
  * (and a single HNSW index) serves them all. Rows remember which model produced
- * them, and retrieval only compares vectors from the active model. Vectors are
- * stored as half precision: the whole municipal corpus has to fit in a free
- * Postgres tier, and fp16 loses nothing measurable on retrieval.
+ * them, and retrieval only compares vectors from the active model. The whole
+ * municipal digest has to fit in a free Postgres tier (512 MB), so vectors are
+ * half precision and 512 wide: voyage-4 is trained to be truncated
+ * (Matryoshka), and both choices together cost a quarter of fp32 × 1024.
  */
-export const EMBEDDING_DIMENSIONS = 1024;
+export const EMBEDDING_DIMENSIONS = 512;
 
 const tsvector = customType<{ data: string }>({
   dataType: () => "tsvector",
