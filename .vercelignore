@@ -1,0 +1,7 @@
+# Corpus crudo y artefactos locales: el sitio lee todo de la base.
+data/
+test-results/
+playwright-report/
+eval/reports/eval-*.json
+.agents/
+.claude/
