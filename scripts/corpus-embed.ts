@@ -13,8 +13,9 @@ import { getProviders } from "@/server/providers";
  *
  *   npm run corpus:embed
  */
-const PAGE = 512;
-const PARALLEL = 3;
+let page = 512;
+let parallel = 3;
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 async function main() {
   const handle = await createDb(process.env.DATABASE_URL_UNPOOLED?.trim() || getEnv().DATABASE_URL);
@@ -71,6 +72,8 @@ async function main() {
   }
 
   for (;;) {
+    const PAGE = page;
+    const PARALLEL = parallel;
     const rows = await db
       .select({
         id: chunks.id,
@@ -87,7 +90,19 @@ async function main() {
       .limit(PAGE * PARALLEL);
     if (!rows.length) break;
     const pages = Array.from({ length: Math.ceil(rows.length / PAGE) }, (_, i) => rows.slice(i * PAGE, (i + 1) * PAGE));
-    await Promise.all(pages.map(embedPage));
+    try {
+      await Promise.all(pages.map(embedPage));
+    } catch (err) {
+      // Rate limited (Voyage without a payment method allows 3 requests and 10K tokens per
+      // minute): wait a minute, go one small page at a time, and carry on where it stopped.
+      if (!/429/.test(err instanceof Error ? err.message : String(err))) throw err;
+      page = Math.max(24, Math.floor(page / 2));
+      parallel = 1;
+      console.log(`límite de Voyage: espero 65 s y sigo de a ${page}`);
+      await sleep(65_000);
+      continue;
+    }
+    if (parallel === 1 && page < 512) await sleep(21_000); // stay under 3 requests per minute
     const secs = (Date.now() - started) / 1000;
     console.log(`${done}/${total} (${fromCache} del cache, ${tokens} tokens, ${Math.round(done / secs)}/s)`);
   }
